@@ -1,0 +1,186 @@
+                    ense470 proj milestones (2014)
+                    ==============================
+
+Author: Karim Naqvi
+Date: 2014-02-19 09:25:46 CST
+
+
+  Below are the various deadlines for course deliverables, including
+  the project, the upcoming lab4 and the midterm exam.  I've also attached the mark
+  weighting for the project milestones.
+
+  This document will be available under the following repository 
+
+  via a mercurial client:
+  ssh://hg@bitbucket.org/naqvik@ense470-2014
+
+  via a web browser:
+  [https://bitbucket.org/naqvik/ense470-2014]
+
+Table of Contents
+=================
+1 Warmup : 0%
+2 Lab4 due (marked as part of the lab  component)
+3 Midterm (marked as part of the exam component)
+4 Milestone 1: 10%
+    4.1 S/W Requirements for milestone 1:
+    4.2 Design Document:
+        4.2.1 Introduction
+        4.2.2 Current Status:
+        4.2.3 Design section
+        4.2.4 Summary:
+5 Milestone 2: 20%
+6 Milestone 3: 30%
+7 Final submission: 40%
+
+
+1 Warmup : 0% 
+==============
+   DEADLINE: <2014-02-27 Thu>
+   Do the following before the lecture on Thu 27 Feb 2014.  Be
+   prepared to discuss these issues in class and work through a class
+   exercise.
+
+   1. Familiarize yourself with the provided codebase.  Use the code
+      under HelicopterGame.  (It's the same as that under Milestone 3
+      anyway).  Place the code under revision control.
+   2. Rewrite problem code so it compiles under linux/windows/mac.
+      Some examples follow:
+      Done - 1. backslashes in include statements
+      Done - 2. superfluous class qualifiers in some member function definitions
+      Done - 3. references to windows.h
+      Done - 4. in Logger.cpp, rewrite so it doesn't use any
+         windows-specific timing stuff
+      Done - 5. Render::detectCollision() should have const& arguments.
+      Done - 6. Non-standard range-for loop in ScriptRunner.cpp
+      Done - 7. Replace windows Sleep() in SleepThread.cpp
+      Done - 8. Remove code under "Trevor" directory
+   Done - 3. Remove cow from the scene.
+   Done - 4. For now, disable the Logging and ScriptRunner features.
+   Done - 5. Draw a class diagram for the system which succinctly describes
+      the large-scale relationships between the classes.
+   6. How would you allow the user to easily change the keys which
+      control the system, and add new command keys?
+
+2 Lab4 due (marked as part of the lab  component) 
+==================================================
+   DEADLINE: <2014-02-28 Fri>
+
+3 Midterm (marked as part of the exam component) 
+=================================================
+   DEADLINE: <2014-03-06 Thu>
+   
+
+4 Milestone 1: 10% 
+===================
+   DEADLINE: <2014-03-12 Wed>
+   
+
+4.1 S/W Requirements for milestone 1: 
+--------------------------------------
+
+     - The goal is to create an obstacle course on a landscape of your
+      choosing (a model file) that your helicopter will fly through.
+	
+      Done - You must have a minimum of three obstacles.  
+
+      The user action shall be the keyboard and the mouse.  The two
+      controls for the helicopter are
+
+	Done      - rotor speed, and
+        Done 	  - rotor tilt.  
+
+    - Use the '1' and '2' keys to decrease/increase rotor speed.  The
+      '0' key should be used to reduce the rotor speed to zero.  The
+      '3' key should be used to set the rotor to "neutral mode" where
+      the rotor force will be equal, in magnitude, to the force of
+      gravity, and thus if the rotor tilt is zero, the force of
+      gravity will be exactly balanced and helicopter will have zero
+      vertical acceleration.
+      
+      Design the software to make it easy to change the
+      specific keys used.
+
+    - Use the mouse to tilt your rotor to a maximum of 15 degrees in
+      any direction.  You do not have to animate the tilt or rotation
+      of the rotor.  You should use the 'c' key to centre the rotor,
+      that is, to set the rotor tilt to zero.
+
+      - Hence, hitting the '3' key and the 'c' key will cause the
+        helicopter to have no vertical acceleration, 
+
+    - You must implement viscous air friction.  You'll have to do a
+      bit of research to find an appropriate value for the coefficient
+      of viscous friction, but the precise value is not really critical.
+
+    - Horizontal acceleration/deceleration are achieved by tilting the rotor
+      in the direction of the desired acceleration.
+
+    - You can assume the ground is at Z=0, that is, the ground is an
+      infinite flat plane.  The camera should be located
+      some distance behind the tail of the helicopter at all times as
+      you fly.  One thing to note is with this design the helicopter
+      will be able to move in all directions, however it will always
+      point in the same direction.
+
+    - As a reference for learning a little about helicopter flight,
+      you can view these two short youtube videos.  It helps to see
+      these things actually work to develop a bit of understanding.
+
+      - [tutorial1]
+
+      - [tutorial2]
+
+
+
+      [tutorial1]: http://www.youtube.com/watch?v=058ARcgZoC0&list=UUWKyP806UuawV1-_sQnjPcQ&index=18&feature=plpp_video
+      [tutorial2]: http://www.youtube.com/watch?v=qw-ZqIH1DP0&feature=BFa&list=UUWKyP806UuawV1-_sQnjPcQ&lf=plpp_video
+
+4.2 Design Document: 
+---------------------
+
+4.2.1 Introduction 
+~~~~~~~~~~~~~~~~~~~
+
+   Introduce the problem you are trying to solve with this revision of
+   software. Detail what each group member was responsible for.
+
+4.2.2 Current Status: 
+~~~~~~~~~~~~~~~~~~~~~~
+
+   Include a paragraph on what the status of your project is compared
+   to the initial problem statement given to you.  Give some detail on
+   what your next goals are and who plans to deal with what.
+
+4.2.3 Design section 
+~~~~~~~~~~~~~~~~~~~~~
+   - UML Class Diagram.  The class diagram must contain the classes
+     that your are creating as well as their dependencies.  Capture
+     the important stuff, not every single data member and member function.
+   - UML Sequence Diagram.  When a user interacts with the scene, or
+     when a FRAME event occurs, some action will result.  Use sequence
+     diagrams to capture this, for the user-generated event and the
+     FRAME event.
+   - Scene Graph.  Detail the scene graph that your design will use.
+
+4.2.4 Summary: 
+~~~~~~~~~~~~~~~
+
+   Include some information on potential problems, unknowns , and the
+   general status/feeling of your group going forward.
+
+
+5 Milestone 2: 20% 
+===================
+   DEADLINE: <2014-03-19 Wed>
+   To be elaborated upon later.
+
+6 Milestone 3: 30% 
+===================
+   DEADLINE: <2014-03-28 Fri>
+   To be elaborated upon later.
+
+7 Final submission: 40% 
+========================
+   DEADLINE: <2014-04-11 Fri>
+   To be elaborated upon later.
