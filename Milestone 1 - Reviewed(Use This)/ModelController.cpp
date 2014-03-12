@@ -25,17 +25,18 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 		case osgGA::GUIEventAdapter::KEYDOWN:
 			switch( ea.getKey() )
 			{
-			case '1':
+			case '2':
 				gameRender->increaseRotor();
 				break;
-    		case '2':
+    		case '1':
 				gameRender->decreaseRotor();
 				break;
-			case 'p': case 'P':
-				if(!sr->getStatus()){sr->runScripts();}
+				//centers the rotors angle theta and phi(heading and angle) to nut
+			case 'c': case 'C':
+				gameRender->centerJoyStick();
 				break;
-			case 'l': case 'L':
-				Logger::getInstance()->toggleLogging();
+			case '3': 
+				gameRender->setRotorNutral();
 				break;
 			}
 			break;

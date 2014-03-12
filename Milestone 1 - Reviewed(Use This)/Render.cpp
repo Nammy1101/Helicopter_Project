@@ -184,8 +184,10 @@ void Render::increaseRotor()
 	float baseThrottle = Constants::getInstance()->baseThrottle;
 	float maxThrottle = Constants::getInstance()->maxThrottle;
 
-	if (rotorForce < baseThrottle*maxThrottle)
+	if (rotorForce < baseThrottle*maxThrottle){
 		rotorForce += baseThrottle; // 0.2;
+		std::cout << rotorForce;
+	}
 	else
 		rotorForce = baseThrottle*maxThrottle;
 }
@@ -195,13 +197,19 @@ void Render::decreaseRotor()
 	if(rotorForce > 0)
 	{
 		rotorForce -= Constants::getInstance()->baseThrottle; //0.2;
+		std::cout << rotorForce;
 	}
 	else
 	{
 		rotorForce = 0;
 	}
 }
+//sets the rotor to a nutal state
+void Render::setRotorNutral(){
+	helicopterThrust = osg::Vec3f(helicopterThrust.x(),helicopterThrust.y(),Constants::getInstance()->helicopter->mass*Constants::getInstance()->gravity);
+	//std::cout << rotorForce;
 
+}
 void Render::setJoystick(float theta, float phi)
 {
 	if (theta < 0)
@@ -214,6 +222,11 @@ void Render::setJoystick(float theta, float phi)
 	if (phi < 0)
 		phi += 360;
 	
+	helicopterThrust = osg::Vec3f(-(rotorForce*sin(theta)*cos(phi)), -(rotorForce*sin(theta)*sin(phi)),(rotorForce*cos(theta)));
+}
+//Adding centering function for the rotor
+void Render::centerJoyStick(){
+	float theta = 0, phi = 0 ;
 	helicopterThrust = osg::Vec3f(-(rotorForce*sin(theta)*cos(phi)), -(rotorForce*sin(theta)*sin(phi)),(rotorForce*cos(theta)));
 }
 
