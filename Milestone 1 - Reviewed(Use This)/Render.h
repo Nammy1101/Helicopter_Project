@@ -52,6 +52,7 @@ class Render{
 	  void increaseRotor();
 	  void decreaseRotor();
 	  void setRotorNutral();
+	  void setRotorZero();
 	  void setJoystick(float theta, float phi);
 	  void updateDirection(float x, float y);
 	  void setGravity(float gravity);

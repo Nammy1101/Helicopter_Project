@@ -38,6 +38,9 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 			case '3': 
 				gameRender->setRotorNutral();
 				break;
+			case '0':
+				gameRender->setRotorZero();
+				break;
 			}
 			break;
 	}

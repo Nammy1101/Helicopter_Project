@@ -89,7 +89,7 @@ void Render::Game_Play(){
 	groundTransform = new osg::PositionAttitudeTransform;
 	groundTransform->addChild(ground.get());
 	groundTransform->setPosition(osg::Vec3(0.0f, 0.0f, -100.0f));
-	groundTransform->setScale(osg::Vec3(10.0f, 10.0f, 1.0f));
+	groundTransform->setScale(osg::Vec3(30.0f, 30.0f, 1.0f));
 	/*
 	osg::ref_ptr<osg::PositionAttitudeTransform> confettiTransform = new osg::PositionAttitudeTransform;
 	confettiTransform->addChild(confetti.get());
@@ -207,6 +207,12 @@ void Render::decreaseRotor()
 //sets the rotor to a nutal state
 void Render::setRotorNutral(){
 	helicopterThrust = osg::Vec3f(helicopterThrust.x(),helicopterThrust.y(),Constants::getInstance()->helicopter->mass*Constants::getInstance()->gravity);
+	//std::cout << rotorForce;
+
+}
+void Render::setRotorZero(){
+	//helicopterThrust = osg::Vec3f(helicopterThrust.x(),helicopterThrust.y(),Constants::getInstance()->helicopter->mass*Constants::getInstance()->gravity);
+	rotorForce = 0;
 	//std::cout << rotorForce;
 
 }
