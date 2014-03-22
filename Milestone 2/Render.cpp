@@ -37,7 +37,6 @@ void Render::Game_Play(){
 	osg::ref_ptr<osg::Node> helicopter = osgDB::readNodeFile("Sikorsky2.osg");
 	osg::ref_ptr<osg::Node> ground = osgDB::readNodeFile("lz.osg");
 	osg::ref_ptr<osg::Node> confetti = osgDB::readNodeFile("glsl_confetti.osgt");
-	//osg::ref_ptr<osg::Node> cow = osgDB::readNodeFile("cow.osg");
 	osg::ref_ptr<osg::Node> dumpTruck = osgDB::readNodeFile("dumptruck.osg");
 	osg::ref_ptr<osg::Node> cow = osgDB::readNodeFile("cow.osg");
 	osg::ref_ptr<osg::Node> spaceShip = osgDB::readNodeFile("spaceShip.osgt");
@@ -124,7 +123,7 @@ void Render::Game_Play(){
 
 	viewer.addEventHandler(new TimerHandler(this));	
 
-	viewer.setUpViewInWindow(100,100,800,600);
+	viewer.setUpViewInWindow(150,150,800,600);
 
 	viewer.setSceneData( rootNode.get());
 
@@ -335,12 +334,12 @@ void Render::updateGamePlay()
 	if(ScriptRunner::getInstance()->getStatus()){ ScriptRunner::getInstance()->doCommand(); }
 	
 }
-
+/*
 void Render::startMoving()
 {
     viewer.addEventHandler(new TimerHandler(this));
 }
-
+*/
 std::string Render::f2s(float num){
 	stringstream ss (stringstream::in | stringstream::out);
 

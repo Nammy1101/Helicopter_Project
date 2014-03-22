@@ -57,7 +57,7 @@ class Render{
 	  void updateDirection(float x, float y);
 	  void setGravity(float gravity);
   	  void updateGamePlay();
-	  void startMoving();
+	 // void startMoving();
 	  void centerJoyStick();
 	  osg::Vec3f calculateForceDirections(float force, osg::Vec2f direction);
 	  bool detectCollision(osg::BoundingSphere& bs1, osg::BoundingSphere& bs2);
