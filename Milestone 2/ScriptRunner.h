@@ -36,7 +36,7 @@ public:
 		return instance;
 	}
 	ScriptRunner(void);
-	~ScriptRunner(void);
+	//~ScriptRunner(void);
 	void setRender(Render*);
 	void setActions(vector<Command>);
 	vector<Command> parseScript(ifstream&);

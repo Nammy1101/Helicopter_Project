@@ -12,6 +12,7 @@
 			There are other functions that do the math and other functions
 			
 		Credits: Brian Schweitzer, Karlee Stein, Tylor Froese, Trevor Douglas (used lab code)
+				 Nam Thach, Dylan Rush, Yachan Wang
 
 */
 
@@ -22,7 +23,6 @@
 #include <osg/AnimationPath>
 #include <osg/PositionAttitudeTransform>
 #include <osgViewer/Viewer>
-#include <iostream>
 #include "Constants.h"
 #include <osg/ShapeDrawable>
 class Render{
@@ -51,7 +51,7 @@ class Render{
 	  void setThrottle(int position);
 	  void increaseRotor();
 	  void decreaseRotor();
-	  void setRotorNutral();
+	  void setRotorNeutral();
 	  void setRotorZero();
 	  void setJoystick(float theta, float phi);
 	  void updateDirection(float x, float y);

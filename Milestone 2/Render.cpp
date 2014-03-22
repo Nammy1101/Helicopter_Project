@@ -90,18 +90,6 @@ void Render::Game_Play(){
 	groundTransform->addChild(ground.get());
 	groundTransform->setPosition(osg::Vec3(0.0f, 0.0f, -100.0f));
 	groundTransform->setScale(osg::Vec3(30.0f, 30.0f, 1.0f));
-	/*
-	osg::ref_ptr<osg::PositionAttitudeTransform> confettiTransform = new osg::PositionAttitudeTransform;
-	confettiTransform->addChild(confetti.get());
-	confettiTransform->setPosition(osg::Vec3(-150.0f,-2500.0f,100));
-	confettiTransform->setScale(osg::Vec3(100.0f,100.0f,100.0f));
-
-	osg::ref_ptr<osg::PositionAttitudeTransform> cowTransform = new osg::PositionAttitudeTransform;
-	cowTransform->addChild(cow.get());
-	cowTransform->setPosition(osg::Vec3(100.0f, -1500.0f, 50.0f));
-	cowTransform->setScale(osg::Vec3(20.0f, 20.0f, 20.0f));
-*/
-
 	
 	osg::ref_ptr<osg::PositionAttitudeTransform> dumpTruckTransform = new osg::PositionAttitudeTransform;
 	dumpTruckTransform->addChild(dumpTruck.get());
@@ -124,14 +112,6 @@ void Render::Game_Play(){
 
 	helicopterThrust = osg::Vec3f(0.0, 0.0, 0.0);
 
-	/*
-	osg::ref_ptr<osg::Group> rootNode = new osg::Group;  //Create a group node
-	rootNode->addChild( groundTransform.get());
-	rootNode->addChild( helicopterTransform.get());
-	rootNode->addChild(torusGroup.get());
-	rootNode->addChild( confettiTransform.get());
-	rootNode->addChild( cowTransform.get());
-	*/
 	osg::ref_ptr<osg::Group> rootNode = new osg::Group;  //Create a group node
 	rootNode->addChild( groundTransform.get());
 	rootNode->addChild( helicopterTransform.get());
@@ -205,7 +185,7 @@ void Render::decreaseRotor()
 	}
 }
 //sets the rotor to a nutal state
-void Render::setRotorNutral(){
+void Render::setRotorNeutral(){
 	helicopterThrust = osg::Vec3f(helicopterThrust.x(),helicopterThrust.y(),Constants::getInstance()->helicopter->mass*Constants::getInstance()->gravity);
 	//std::cout << rotorForce;
 

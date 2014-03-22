@@ -122,7 +122,8 @@ bool ScriptRunner::getStatus()
 {
 	return isRunning;
 }
-
+/*
 ScriptRunner::~ScriptRunner(void)
 {
 }
+*/

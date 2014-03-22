@@ -36,7 +36,7 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 				gameRender->centerJoyStick();
 				break;
 			case '3': 
-				gameRender->setRotorNutral();
+				gameRender->setRotorNeutral();
 				break;
 			case '0':
 				gameRender->setRotorZero();

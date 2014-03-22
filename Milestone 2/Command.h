@@ -22,7 +22,6 @@ class Command
 private:
 	COMMAND_TYPE commandName;
 	vector<float> params;
-	double timeStamp;
 	SleepThread * sleepThread;
 public:
 	Command(COMMAND_TYPE,vector<float>);

@@ -41,7 +41,7 @@ public:
 	Constants(void);
 	float calculateFrictionConstant(float theta);
 	void setFrictionConstant(float theta);
-	~Constants(void);
+//	~Constants(void);
 
 private:
 	static Constants* instance;

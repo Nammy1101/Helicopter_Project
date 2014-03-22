@@ -16,7 +16,6 @@ Command::Command(COMMAND_TYPE command, vector<float> parameters)
 {
 	commandName = command;
 	params = parameters;
-	timeStamp = 0;
 	sleepThread = NULL;
 }
 

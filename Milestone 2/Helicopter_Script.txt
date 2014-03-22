@@ -1,0 +1,7 @@
+set_joystick=10.0 =10.0
+centre_joystick
+delay seconds = 5
+throttle=52.3
+#testing script
+delay seconds = 5
+end

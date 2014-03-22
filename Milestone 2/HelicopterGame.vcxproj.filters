@@ -14,7 +14,7 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Trevor">
-      <UniqueIdentifier>{b37621ea-99c2-426e-a57f-0ba76baa2181}</UniqueIdentifier>
+      <UniqueIdentifier>{488fe714-ee71-4076-8165-e3347c8ad91c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -26,12 +26,6 @@
     </ClCompile>
     <ClCompile Include="TimerHandler.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Trevor\Vector2.cpp">
-      <Filter>Trevor</Filter>
-    </ClCompile>
-    <ClCompile Include="Trevor\Vector3.cpp">
-      <Filter>Trevor</Filter>
     </ClCompile>
     <ClCompile Include="Constants.cpp">
       <Filter>Source Files</Filter>
@@ -54,14 +48,11 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Trevor\Vector2.cpp">
+      <Filter>Trevor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Trevor\Vector2.h">
-      <Filter>Trevor</Filter>
-    </ClInclude>
-    <ClInclude Include="Trevor\Vector3.h">
-      <Filter>Trevor</Filter>
-    </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -88,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Trevor\Vector2.h">
+      <Filter>Trevor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
