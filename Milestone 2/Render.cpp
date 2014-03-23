@@ -334,12 +334,7 @@ void Render::updateGamePlay()
 	if(ScriptRunner::getInstance()->getStatus()){ ScriptRunner::getInstance()->doCommand(); }
 	
 }
-/*
-void Render::startMoving()
-{
-    viewer.addEventHandler(new TimerHandler(this));
-}
-*/
+
 std::string Render::f2s(float num){
 	stringstream ss (stringstream::in | stringstream::out);
 
@@ -347,4 +342,23 @@ std::string Render::f2s(float num){
 
   string str = ss.str();
   return str;
+}
+
+float Render::getModelPositionX(){
+	return modelPosition.x();
+}
+float Render::getModelPositionY(){
+	return modelPosition.y();
+}
+float Render::getModelPositionZ(){
+	return modelPosition.z();
+}
+float Render::getModelVelocityX(){
+	return modelVelocity.x();
+}
+float Render::getModelVelocityY(){
+	return modelVelocity.y();
+}
+float Render::getModelVelocityZ(){
+	return modelVelocity.z();
 }

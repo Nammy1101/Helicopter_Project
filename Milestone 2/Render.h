@@ -63,6 +63,13 @@ class Render{
 	  bool detectCollision(osg::BoundingSphere& bs1, osg::BoundingSphere& bs2);
 	  void changeBallColour(osg::ref_ptr<osg::PositionAttitudeTransform>& ball);
 	  std::string f2s(float num);
+
+	  float getModelPositionX();
+	  float getModelPositionY();
+ 	  float getModelPositionZ();
+	  float getModelVelocityX();
+	  float getModelVelocityY();
+	  float getModelVelocityZ();
 };
 
 #endif
