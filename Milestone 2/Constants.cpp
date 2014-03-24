@@ -67,7 +67,6 @@
 	{
 		return (helicopter->mass*gravity*tan(osg::DegreesToRadians(theta)))/pow(helicopter->maxAirspeed, 2);
 	}
-
 /*	Constants::~Constants(void)
 	{
 	}
