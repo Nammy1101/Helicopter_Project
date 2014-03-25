@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 				infile.open(parser[sLoc+1]);
 				sr->setActions(sr->parseScript(infile));
 				std::cout << parser[sLoc+1] << std::endl;
-				Constants::getInstance()->disableMouse = true;
+				Constants::getInstance()->disableMouse = true;  //added disable mouse
 			 }
 		}
 		if(aLoc > 0){
