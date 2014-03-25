@@ -27,6 +27,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="HelicopterConfig.h" />
+    <ClInclude Include="Helicopter_test.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="ModelController.h" />
     <ClInclude Include="Render.h" />
@@ -82,6 +83,9 @@
       <AdditionalLibraryDirectories>$(OSG_ROOT)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>osgd.lib;osgViewerd.lib;osgDBd.lib;osgGAd.lib;osgFXd.lib;osgUtild.lib;OpenThreadsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CustomBuildStep>
+      <Command>python C:\cxxtest\python\cxxtest\cxxtestgen.py --runner=ParenPrinter -o test.cpp Helicopter_test.h</Command>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

@@ -41,6 +41,16 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 			case '0':
 				gameRender->setRotorZero();
 				break;
+			case 'p': case 'P':
+				if(!sr->getStatus())
+				{
+					sr->runScripts();
+					Constants::getInstance()->disableMouse = true;
+				}
+				break;
+			case 'l': case 'L':
+				Logger::getInstance()->toggleLogging();
+			    break;
 			}
 			break;
 	}

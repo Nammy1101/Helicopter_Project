@@ -18,6 +18,7 @@
 int main(int argc, char** argv)
 {
 	Render render;
+
 	ScriptRunner * sr = ScriptRunner::getInstance();
 	Logger * logger = Logger::getInstance();
 	osg::ArgumentParser parser = osg::ArgumentParser(&argc, argv);
@@ -31,7 +32,6 @@ int main(int argc, char** argv)
 				infile.open(parser[sLoc+1]);
 				sr->setActions(sr->parseScript(infile));
 				std::cout << parser[sLoc+1] << std::endl;
-				Constants::getInstance()->disableMouse = true;  //added disable mouse
 			 }
 		}
 		if(aLoc > 0){

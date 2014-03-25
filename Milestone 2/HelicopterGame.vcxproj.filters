@@ -83,5 +83,8 @@
     <ClInclude Include="Trevor\Vector2.h">
       <Filter>Trevor</Filter>
     </ClInclude>
+    <ClInclude Include="Helicopter_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
