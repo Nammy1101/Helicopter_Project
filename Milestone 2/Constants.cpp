@@ -24,7 +24,7 @@
 		this->maxTheta = 15;
 		this->frictionConstant = calculateFrictionConstant(maxTheta);
 		this->baseThrottle = helicopter->mass*gravity/10;
-		this->disableMouse = false;
+		this->disableMouse = true;
 		this->loggingOn = false;
 	}
 
