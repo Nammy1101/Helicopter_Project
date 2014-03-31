@@ -27,7 +27,6 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="HelicopterConfig.h" />
-    <ClInclude Include="Helicopter_test.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="ModelController.h" />
     <ClInclude Include="Render.h" />
@@ -35,6 +34,7 @@
     <ClInclude Include="SleepThread.h" />
     <ClInclude Include="TimerHandler.h" />
     <ClInclude Include="Trevor\Vector2.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{34EDA7E6-C43C-4C92-979D-B895AD9BB4FF}</ProjectGuid>

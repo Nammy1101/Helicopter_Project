@@ -45,15 +45,8 @@ int main(int argc, char** argv)
 		}
 		if(lLoc > 0)
 		{
-			if(parser.isString(lLoc+1))
-			{
-				logger->setFileName(parser[lLoc+1]);
-			}
-		}
-		else
-			{
 				logger->setFileName("helicopterLog.txt");
-			}
+		}
 	}
 
 	render.Game_Play();

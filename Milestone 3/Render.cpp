@@ -36,11 +36,6 @@ void Render::Game_Play(){
 	sr->setRender(this);
 	osg::ref_ptr<osg::Node> helicopter = osgDB::readNodeFile("Sikorsky2.osg");
 	osg::ref_ptr<osg::Node> ground = osgDB::readNodeFile("lz.osg");
-	osg::ref_ptr<osg::Node> confetti = osgDB::readNodeFile("glsl_confetti.osgt");
-	osg::ref_ptr<osg::Node> dumpTruck = osgDB::readNodeFile("dumptruck.osg");
-	osg::ref_ptr<osg::Node> cow = osgDB::readNodeFile("cow.osg");
-	osg::ref_ptr<osg::Node> spaceShip = osgDB::readNodeFile("spaceShip.osgt");
-	
 	
 	ball1  = new osg::ShapeDrawable;
 	ball1->setShape( new osg::Sphere(osg::Vec3(0.0f, 0.0f,0.0f), 25.0f));
@@ -90,22 +85,6 @@ void Render::Game_Play(){
 	groundTransform->setPosition(osg::Vec3(0.0f, 0.0f, -100.0f));
 	groundTransform->setScale(osg::Vec3(30.0f, 30.0f, 1.0f));
 	
-	osg::ref_ptr<osg::PositionAttitudeTransform> dumpTruckTransform = new osg::PositionAttitudeTransform;
-	dumpTruckTransform->addChild(dumpTruck.get());
-	dumpTruckTransform->setPosition(osg::Vec3(600.0f,-4000.0f,500));
-	dumpTruckTransform->setScale(osg::Vec3(50.0f,50.0f,50.0f));
-
-	osg::ref_ptr<osg::PositionAttitudeTransform> cowTransform = new osg::PositionAttitudeTransform;
-	cowTransform->addChild(cow.get());
-	cowTransform->setPosition(osg::Vec3(0.0f, -2000.0f, 700.0f));
-	cowTransform->setScale(osg::Vec3(60.0f, 60.0f, 60.0f));
-
-	osg::ref_ptr<osg::PositionAttitudeTransform> spaceShipTransform = new osg::PositionAttitudeTransform;
-	spaceShipTransform->addChild(spaceShip.get());
-	spaceShipTransform->setPosition(osg::Vec3(700.0f,-7000.0f, 1000.0f));
-	spaceShipTransform->setScale(osg::Vec3(70.0f,70.0f,70.0f));
-
-	
 	modelPosition.set(helicopterTransform->getPosition());
 	modelVelocity.set(osg::Vec3f(0,0,0));
 
@@ -115,9 +94,6 @@ void Render::Game_Play(){
 	rootNode->addChild( groundTransform.get());
 	rootNode->addChild( helicopterTransform.get());
 	rootNode->addChild( torusGroup.get());
-	rootNode->addChild( spaceShipTransform.get());
-	rootNode->addChild( dumpTruckTransform.get());
-	rootNode->addChild( cowTransform.get());
 	
 	viewer.addEventHandler( ctrler.get());
 
@@ -125,7 +101,7 @@ void Render::Game_Play(){
 
 	viewer.setUpViewInWindow(150,150,800,600);
 
-	viewer.setSceneData( rootNode.get());
+	viewer.setSceneData(rootNode.get());
 
 	//This bit of code will have the camera follow the model
     osg::ref_ptr<osgGA::NodeTrackerManipulator> nodeTracker = new osgGA::NodeTrackerManipulator;
@@ -186,14 +162,9 @@ void Render::decreaseRotor()
 //sets the rotor to a nutal state
 void Render::setRotorNeutral(){
 	helicopterThrust = osg::Vec3f(helicopterThrust.x(),helicopterThrust.y(),Constants::getInstance()->helicopter->mass*Constants::getInstance()->gravity);
-	//std::cout << rotorForce;
-
 }
 void Render::setRotorZero(){
-	//helicopterThrust = osg::Vec3f(helicopterThrust.x(),helicopterThrust.y(),Constants::getInstance()->helicopter->mass*Constants::getInstance()->gravity);
 	rotorForce = 0;
-	//std::cout << rotorForce;
-
 }
 void Render::setJoystick(float theta, float phi)
 {
@@ -221,14 +192,9 @@ osg::Vec3f Render::calculateForceDirections(float force, osg::Vec2f direction){
 	float viewWidth = viewer.getCamera()->getViewport()->width();
 	
 	float relationship = (viewHeight<viewWidth)?15/(viewHeight/4):15/(viewWidth/4);
-
-	//std::cout << "Relationship: " << relationship << std::endl;
 	
 	float theta = osg::DegreesToRadians(vector.Length()*relationship);
 	float phi = atan2(direction.y(), direction.x());
-
-	//std::cout << "Theta: " << theta << std::endl;
-	//std::cout << "Phi: " << phi << std::endl;
 
 	//Constants::getInstance()->setFrictionConstant(theta);
 	//std::cout << Constants::getInstance()->frictionConstant << std::endl;
@@ -330,7 +296,12 @@ void Render::updateGamePlay()
 	logger->log("Throttle Position: " + f2s(rotorForce/Constants::getInstance()->baseThrottle));
 	modelPosition.set(osg::Vec3d(xPos, yPos, zPos));
 	modelVelocity.set(osg::Vec3f(xVel, yVel, zVel));
-	helicopterTransform->setPosition(modelPosition); 
+	helicopterTransform->setPosition(modelPosition);
+	/*helicopterTransform->setAttitude(
+		osg::Quat(
+				osg::
+			)
+		);*/
 	if(ScriptRunner::getInstance()->getStatus()){ ScriptRunner::getInstance()->doCommand(); }
 	
 }
@@ -344,21 +315,6 @@ std::string Render::f2s(float num){
   return str;
 }
 
-float Render::getModelPositionX(){
-	return modelPosition.x();
-}
-float Render::getModelPositionY(){
-	return modelPosition.y();
-}
-float Render::getModelPositionZ(){
-	return modelPosition.z();
-}
-float Render::getModelVelocityX(){
-	return modelVelocity.x();
-}
-float Render::getModelVelocityY(){
-	return modelVelocity.y();
-}
-float Render::getModelVelocityZ(){
-	return modelVelocity.z();
+void Render::setYaw(float angle){
+	yaw += angle;
 }

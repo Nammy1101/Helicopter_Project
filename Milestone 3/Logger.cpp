@@ -19,7 +19,7 @@ void Logger::log(string data){
 	if(loggingOn){
 		time_t t = time(0);
 		struct tm * now = localtime(& t);
-		fprintf(logFile,"%04d-%02d-%02d %02d:%02d:%02d.%04d: %s \n",now ->tm_year + 1900, now->tm_mon + 1, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec ,data.c_str()); //Using c++ time library
+		fprintf(logFile,"%04d-%02d-%02d %02d:%02d:%02d.%04d: %s \n",now ->tm_year + 1900, now->tm_mon + 1, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec ,data); //Using c++ time library
 	}
 }
 void Logger::openLog()

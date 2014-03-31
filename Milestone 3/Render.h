@@ -25,6 +25,8 @@
 #include <osgViewer/Viewer>
 #include "Constants.h"
 #include <osg/ShapeDrawable>
+#include "util.h"
+
 class Render{
   private:
 	  osg::ref_ptr<osg::PositionAttitudeTransform> helicopterTransform;
@@ -46,7 +48,9 @@ class Render{
 	  Render() : last(0) {
 		  aGrav = (Constants::getInstance()->gravity)*(-1);
 		rotorForce = 0;
+		yaw = 0;
 	  }
+	  void setScene();
 	  void Game_Play();
 	  void setThrottle(int position);
 	  void increaseRotor();
@@ -56,20 +60,17 @@ class Render{
 	  void setJoystick(float theta, float phi);
 	  void updateDirection(float x, float y);
 	  void setGravity(float gravity);
+	  void setYaw(float angle);
+	  void setRoll(float angle);
+	  void setPitch(float angle);
   	  void updateGamePlay();
-	 // void startMoving();
 	  void centerJoyStick();
 	  osg::Vec3f calculateForceDirections(float force, osg::Vec2f direction);
 	  bool detectCollision(osg::BoundingSphere& bs1, osg::BoundingSphere& bs2);
 	  void changeBallColour(osg::ref_ptr<osg::PositionAttitudeTransform>& ball);
 	  std::string f2s(float num);
 
-	  float getModelPositionX();
-	  float getModelPositionY();
- 	  float getModelPositionZ();
-	  float getModelVelocityX();
-	  float getModelVelocityY();
-	  float getModelVelocityZ();
+	  struct Orientation helicopterOrientation;
 };
 
 #endif
