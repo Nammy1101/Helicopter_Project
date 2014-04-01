@@ -51,16 +51,16 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 			case 'l': case 'L':
 				Logger::getInstance()->toggleLogging();
 			    break;
-			case 'a':
+			case 'a': case 'A':
 				gameRender->setRoll(-1);
 				break;
-			case 'd':
+			case 'd': case 'D':
 				gameRender->setRoll(1);
 				break;
-			case 'w':
+			case 'w': case 'W':
 				gameRender->setPitch(1);
 				break;
-			case 'x':
+			case 's': case 'S':
 				gameRender->setPitch(-1);
 				break;
 			case osgGA::GUIEventAdapter::KEY_Right:
