@@ -51,6 +51,24 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 			case 'l': case 'L':
 				Logger::getInstance()->toggleLogging();
 			    break;
+			case 'a':
+				gameRender->setRoll(-1);
+				break;
+			case 'd':
+				gameRender->setRoll(1);
+				break;
+			case 'w':
+				gameRender->setPitch(1);
+				break;
+			case 'x':
+				gameRender->setPitch(-1);
+				break;
+			case osgGA::GUIEventAdapter::KEY_Right:
+				gameRender->setYaw(-2.0f);
+				break;
+			case osgGA::GUIEventAdapter::KEY_Left:
+				gameRender->setYaw(2.0f);
+	    break;
 			}
 			break;
 	}

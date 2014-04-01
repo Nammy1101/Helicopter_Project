@@ -76,7 +76,14 @@ void Render::Game_Play(){
 	helicopterTransform = new osg::PositionAttitudeTransform;
 	helicopterTransform->addChild(helicopter.get());
 	helicopterTransform->setPosition(osg::Vec3(0.0f, 0.0f, 0.0f));
-	helicopterTransform->setAttitude(osg::Quat((3.14/2), osg::Vec3d(1.0, 0.0, 0.0)));
+	//helicopterTransform->setAttitude(osg::Quat((3.14/2), osg::Vec3d(1.0, 0.0, 0.0)));
+    helicopterTransform->setAttitude(
+        osg::Quat(
+            osg::DegreesToRadians(90.0f),osg::Vec3f(1,0,0),
+            osg::DegreesToRadians(0.0f),osg::Vec3f(0,0,1),
+            osg::DegreesToRadians(0.0f),osg::Vec3f(0,1,0)
+            )
+        );
 
 	osg::ref_ptr<ModelController> ctrler = new ModelController(helicopterTransform.get(),this);
 
@@ -297,11 +304,13 @@ void Render::updateGamePlay()
 	modelPosition.set(osg::Vec3d(xPos, yPos, zPos));
 	modelVelocity.set(osg::Vec3f(xVel, yVel, zVel));
 	helicopterTransform->setPosition(modelPosition);
-	/*helicopterTransform->setAttitude(
+	helicopterTransform->setAttitude(
 		osg::Quat(
-				osg::
+			osg::DegreesToRadians(90 + helicopterOrientation.x_theta),osg::Vec3f(1,0,0),
+			osg::DegreesToRadians(helicopterOrientation.y_theta),osg::Vec3f(0,1,0),
+			osg::DegreesToRadians(helicopterOrientation.z_theta),osg::Vec3f(0,0,1)
 			)
-		);*/
+		);
 	if(ScriptRunner::getInstance()->getStatus()){ ScriptRunner::getInstance()->doCommand(); }
 	
 }
@@ -316,5 +325,11 @@ std::string Render::f2s(float num){
 }
 
 void Render::setYaw(float angle){
-	yaw += angle;
+	helicopterOrientation.z_theta += angle;
+}
+void Render::setPitch(float angle){
+	helicopterOrientation.x_theta += angle;
+}
+void Render::setRoll(float angle){
+	helicopterOrientation.y_theta += angle;
 }
