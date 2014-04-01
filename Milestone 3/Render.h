@@ -25,6 +25,8 @@
 #include <osgViewer/Viewer>
 #include "Constants.h"
 #include <osg/ShapeDrawable>
+#include <osgText/Text>
+#include <osg/Geode>
 #include "util.h"
 
 class Render{
@@ -40,14 +42,24 @@ class Render{
 	  osg::Vec3d modelPosition;
 	  osg::Vec3f modelVelocity;
 	  osgViewer::Viewer viewer;
+	  osg::ref_ptr<osg::Camera> camera;
+	  osg::ref_ptr<osg::Geode> hudGeode;
 	  float last;
 	  float aGrav;
 	  float rotorForce;
 	  osg::Vec3f helicopterThrust;
+	  osgText::Text * text;
   public:
 	  Render() : last(0) {
 		  aGrav = (Constants::getInstance()->gravity)*(-1);
 		rotorForce = 0;
+		camera = new osg::Camera;
+		hudGeode = new osg::Geode;
+		camera->setClearMask(GL_DEPTH_BUFFER_BIT);
+		camera->setProjectionMatrixAsOrtho2D(0,1280,0,1024);
+		camera->setViewMatrix(osg::Matrix::identity());
+		camera->setRenderOrder( osg::Camera::POST_RENDER );
+		camera->setReferenceFrame( osg::Camera::ABSOLUTE_RF );
 	  }
 	  void setScene();
 	  void Game_Play();
@@ -69,6 +81,11 @@ class Render{
 	  void changeBallColour(osg::ref_ptr<osg::PositionAttitudeTransform>& ball);
 	  std::string f2s(float num);
 
+	  void initializeHudText();
+	  osg::Camera * getHudCamera();
+	  osg::Geode * getHudGeode();
+	  void setText(std::string& hudText);
+	  void setPosition(osg::Vec3d Position);
 	  struct Orientation helicopterOrientation;
 };
 

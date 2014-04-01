@@ -30,8 +30,10 @@
 #include <osgGA/NodeTrackerManipulator>
 #include <osg/FrameStamp>
 
-
 void Render::Game_Play(){
+	//Hud hud;
+	//hud.initializeHudText();
+	//osg::Camera * hudCamera;
 	ScriptRunner * sr = ScriptRunner::getInstance();
 	sr->setRender(this);
 	osg::ref_ptr<osg::Node> helicopter = osgDB::readNodeFile("Sikorsky2.osg");
@@ -290,6 +292,10 @@ void Render::updateGamePlay()
 	float zPos = modelPosition.z() + (modelVelocity.z()*delta) + (0.5)*zAcc*(pow(delta,2));
 	float zVel = (modelVelocity.z() + zAcc*delta)*0.99999999999;
 
+	if(zVel < -10 && zPos < 4){
+		cout << "You have crashed" << endl;
+	}
+
 	if(zPos < 1){  //these ones should be radius of ball
 		zPos = 1;
 		zVel *= 0.8;
@@ -297,7 +303,7 @@ void Render::updateGamePlay()
 	}
 	Logger* logger = Logger::getInstance();
 	string something = f2s(xPos);
-	logger->log("X Pos: " + f2s(xPos) + " Y Pos: " + f2s(yPos) + " Z Pos: " + f2s(zPos)); 
+	logger->log("X Pos: " + f2s(xPos) + " Y Pos: " + f2s(yPos) +" Z Pos: " + f2s(zPos)); 
 	logger->log("X Vel: " + f2s(xVel) + " Y Vel: " + f2s(yVel) +" Z Vel: " + f2s(zVel));
 	logger->log("X Acc: " + f2s(xAcc) + " Y Acc: " + f2s(yAcc) +" Z Acc: " + f2s(zAcc));
 	logger->log("Throttle Position: " + f2s(rotorForce/Constants::getInstance()->baseThrottle));
@@ -311,8 +317,7 @@ void Render::updateGamePlay()
 			osg::DegreesToRadians(helicopterOrientation.z_theta),osg::Vec3f(0,0,1)
 			)
 		);
-	if(ScriptRunner::getInstance()->getStatus()){ ScriptRunner::getInstance()->doCommand(); }
-	
+	if(ScriptRunner::getInstance()->getStatus()){ ScriptRunner::getInstance()->doCommand();}
 }
 
 std::string Render::f2s(float num){
@@ -332,4 +337,28 @@ void Render::setPitch(float angle){
 }
 void Render::setRoll(float angle){
 	helicopterOrientation.y_theta += angle;
+}
+
+void Render::initializeHudText()
+{
+	    //initialize our text pointer;
+   // text = new osgText::Text;
+  //  text->setFont(osgText::readFontFile("fonts/vera.ttf"));
+   // text->setColor(osg::Vec4(0,0,0,1.0f));
+   // text->setCharacterSize(60.0f);
+   // text->setLayout( osgText::Text::LEFT_TO_RIGHT );
+   // text->setText("Heads Up Display");
+   // text->setPosition(osg::Vec3(0,50,0));
+
+   hudGeode->addDrawable(text);
+
+   // camera->addChild(hudGeode);
+}
+
+osg::Camera * Render::getHudCamera(){
+	return camera;
+}
+
+osg::Geode * Render::getHudGeode(){
+	return hudGeode;
 }
