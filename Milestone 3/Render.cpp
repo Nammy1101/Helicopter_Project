@@ -109,7 +109,9 @@ void Render::Game_Play(){
 
 	helicopterThrust = osg::Vec3f(0.0, 0.0, 0.0);
 
-	displayControls.addText("Controls:");
+	displayControls.setText("Controls: \nPitch: forward: W Backwards: S \nRoll: Left: A Right: D\nYaw: Left: left arrow right: right arrow\nRotorThrust: increase: 2 decrease: 1\nHover: 3\nNo power: 0\nCenter Joystick: C\nMove: Point Mouse"  );
+	/*
+	displayControls.addText("Controls:\n\n");
 	displayControls.addText("Pitch: forward: W Backwards: S");
 	displayControls.addText("Roll: Left: A Right: D");
 	displayControls.addText("Yaw: Left: left arrow right: right arrow");
@@ -117,7 +119,7 @@ void Render::Game_Play(){
 	displayControls.addText("Hover: 3");
 	displayControls.addText("No power: 0");
 	displayControls.addText("Center Joystick: C");
-	displayControls.addText("Move: Point Mouse");
+	displayControls.addText("Move: Point Mouse");*/
 	controlCamera = displayControls.getHudCamera();
 	logCameraPos = displayLogPos.getHudCamera();
 	logCameraVel = displayLogVel.getHudCamera();

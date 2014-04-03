@@ -15,9 +15,6 @@ private:
     osg::ref_ptr<osg::Geode> hudGeode;
 
     osgText::Text * text;
-	osg::Vec3 delta;
-	osg::Vec3 position;
-	osg::Vec3 logPosition;
 public:
 
     Hud();
@@ -25,8 +22,6 @@ public:
     void run2();
     void setText(const std::string& hudTest);
 	void setSize(float size);
-	void addText(const std::string& newText);
-	void resetLogPosition();
 	void setLogTextPos(const std::string& logText);
 	void setLogTextVel(const std::string& logText);
 	void setLogTextAcc(const std::string& logText);
