@@ -14,6 +14,7 @@
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="HelicopterConfig.cpp" />
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="mainApp.cpp" />
     <ClCompile Include="ModelController.cpp" />
@@ -27,6 +28,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="HelicopterConfig.h" />
+    <ClInclude Include="Hud.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="ModelController.h" />
     <ClInclude Include="Render.h" />
@@ -80,8 +82,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OSG_ROOT)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>osgd.lib;osgViewerd.lib;osgDBd.lib;osgGAd.lib;osgFXd.lib;osgUtild.lib;OpenThreadsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OSG_ROOT)/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>osgd.lib;osgViewerd.lib;osgDBd.lib;osgGAd.lib;osgFXd.lib;osgTextd.lib;osgUtild.lib;OpenThreadsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>python C:\cxxtest\python\cxxtest\cxxtestgen.py --runner=ParenPrinter -o test.cpp Helicopter_test.h</Command>

@@ -31,9 +31,19 @@
 #include <osg/FrameStamp>
 
 void Render::Game_Play(){
-	//Hud hud;
-	//hud.initializeHudText();
-	//osg::Camera * hudCamera;
+
+	displayControls.initializeHudText();
+	displayLogPos.initializeHudText();
+	displayLogVel.initializeHudText();
+	displayLogAcc.initializeHudText();
+	displayThrust.initializeHudText();
+	displayOrientation.initializeHudText();
+	osg::Camera * controlCamera;
+	osg::Camera * logCameraPos;
+	osg::Camera * logCameraVel;
+	osg::Camera * logCameraAcc;
+	osg::Camera * thrustCamera;
+	osg::Camera * orientationCamera;
 	ScriptRunner * sr = ScriptRunner::getInstance();
 	sr->setRender(this);
 	osg::ref_ptr<osg::Node> helicopter = osgDB::readNodeFile("Sikorsky2.osg");
@@ -99,16 +109,42 @@ void Render::Game_Play(){
 
 	helicopterThrust = osg::Vec3f(0.0, 0.0, 0.0);
 
+	displayControls.addText("Controls:");
+	displayControls.addText("Pitch: forward: W Backwards: S");
+	displayControls.addText("Roll: Left: A Right: D");
+	displayControls.addText("Yaw: Left: left arrow right: right arrow");
+	displayControls.addText("RotorThrust: increase: 2 decrease: 1");
+	displayControls.addText("Hover: 3");
+	displayControls.addText("No power: 0");
+	displayControls.addText("Center Joystick: C");
+	displayControls.addText("Move: Point Mouse");
+	controlCamera = displayControls.getHudCamera();
+	logCameraPos = displayLogPos.getHudCamera();
+	logCameraVel = displayLogVel.getHudCamera();
+	logCameraAcc = displayLogAcc.getHudCamera();
+	thrustCamera = displayThrust.getHudCamera();
+	orientationCamera = displayOrientation.getHudCamera();
+
+
 	osg::ref_ptr<osg::Group> rootNode = new osg::Group;  //Create a group node
 	rootNode->addChild( groundTransform.get());
 	rootNode->addChild( helicopterTransform.get());
 	rootNode->addChild( torusGroup.get());
-	
+	rootNode->addChild( controlCamera);
+	rootNode->addChild( logCameraPos);
+	rootNode->addChild( logCameraVel);
+	rootNode->addChild( logCameraAcc);
+	rootNode->addChild( thrustCamera);
+	rootNode->addChild( orientationCamera);
+
+	osg::ref_ptr<osg::Group> rootNode2 = new osg::Group;
+	rootNode2->addChild( controlCamera);
+
 	viewer.addEventHandler( ctrler.get());
 
 	viewer.addEventHandler(new TimerHandler(this));	
 
-	viewer.setUpViewInWindow(150,150,800,600);
+	viewer.setUpViewInWindow(300,300,1000,700);
 
 	viewer.setSceneData(rootNode.get());
 
@@ -292,8 +328,11 @@ void Render::updateGamePlay()
 	float zPos = modelPosition.z() + (modelVelocity.z()*delta) + (0.5)*zAcc*(pow(delta,2));
 	float zVel = (modelVelocity.z() + zAcc*delta)*0.99999999999;
 
+	float liftZ = zAcc/Constants::getInstance()->gravity;
+
 	if(zVel < -10 && zPos < 4){
-		cout << "You have crashed" << endl;
+		//cout << "You have crashed" << endl;
+	//	hud.setText("YOU HAVE CRASHED!");
 	}
 
 	if(zPos < 1){  //these ones should be radius of ball
@@ -307,6 +346,13 @@ void Render::updateGamePlay()
 	logger->log("X Vel: " + f2s(xVel) + " Y Vel: " + f2s(yVel) +" Z Vel: " + f2s(zVel));
 	logger->log("X Acc: " + f2s(xAcc) + " Y Acc: " + f2s(yAcc) +" Z Acc: " + f2s(zAcc));
 	logger->log("Throttle Position: " + f2s(rotorForce/Constants::getInstance()->baseThrottle));
+
+	displayLogPos.setLogTextPos("X Pos:       " + f2s(xPos) + "     Y Pos:      " + f2s(yPos) +"     Z Pos:      " + f2s(zPos));
+	displayLogVel.setLogTextVel("X Vel:       " + f2s(xVel) + "     Y Vel:      " + f2s(yVel) +"     Z Vel:      " + f2s(zVel));
+	displayLogAcc.setLogTextAcc("X Acc:       " + f2s(xAcc) + "     Y Acc:      " + f2s(yAcc) +"     Z Acc:      " + f2s(zAcc));
+	displayThrust.setThrust("Thrust in X: " + f2s(helicopterThrust.x()) + " Thrust in Y: " + f2s(helicopterThrust.y()) + " Lift in Z direction: " + f2s(liftZ));
+	displayOrientation.setOrientation("Orientation in X: " + f2s(90 + helicopterOrientation.x_theta) + " Orientation in Y: " + f2s(helicopterOrientation.y_theta) + " Orientation in Z: " + f2s(helicopterOrientation.z_theta));
+
 	modelPosition.set(osg::Vec3d(xPos, yPos, zPos));
 	modelVelocity.set(osg::Vec3f(xVel, yVel, zVel));
 	helicopterTransform->setPosition(modelPosition);
@@ -337,28 +383,4 @@ void Render::setPitch(float angle){
 }
 void Render::setRoll(float angle){
 	helicopterOrientation.y_theta += angle;
-}
-
-void Render::initializeHudText()
-{
-	    //initialize our text pointer;
-   // text = new osgText::Text;
-  //  text->setFont(osgText::readFontFile("fonts/vera.ttf"));
-   // text->setColor(osg::Vec4(0,0,0,1.0f));
-   // text->setCharacterSize(60.0f);
-   // text->setLayout( osgText::Text::LEFT_TO_RIGHT );
-   // text->setText("Heads Up Display");
-   // text->setPosition(osg::Vec3(0,50,0));
-
-   hudGeode->addDrawable(text);
-
-   // camera->addChild(hudGeode);
-}
-
-osg::Camera * Render::getHudCamera(){
-	return camera;
-}
-
-osg::Geode * Render::getHudGeode(){
-	return hudGeode;
 }
