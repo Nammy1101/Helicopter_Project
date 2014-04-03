@@ -144,7 +144,7 @@ void Render::Game_Play(){
 
 	viewer.addEventHandler(new TimerHandler(this));	
 
-	viewer.setUpViewInWindow(300,300,1000,700);
+	viewer.setUpViewInWindow(300,300,800,600);
 
 	viewer.setSceneData(rootNode.get());
 
