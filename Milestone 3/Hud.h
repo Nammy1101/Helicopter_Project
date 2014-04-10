@@ -5,6 +5,7 @@
 #include <osgText/Text>
 #include <osg/Geode>
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -14,21 +15,26 @@ private:
     osg::ref_ptr<osg::Camera> camera;
     osg::ref_ptr<osg::Geode> hudGeode;
 
-    osgText::Text * text;
+    osgText::Text * controlsText;
+	osgText::Text * position;
+	osgText::Text * velocity;
+	osgText::Text * acceleration;
+	osgText::Text * forces;
+	osgText::Text * orientation;
+	osgText::Text * missleInfo;
+	osgText::Text * crashed;
 public:
 
     Hud();
     void run1();
     void run2();
-    void setText(const std::string& hudTest);
-	void setSize(float size);
-	void setLogTextPos(const std::string& logText);
-	void setLogTextVel(const std::string& logText);
-	void setLogTextAcc(const std::string& logText);
-	void setThrust(const std::string& thrust);
-	void setOrientation(const std::string& orientation);
+    void setCrashedText(const std::string& hudTest);
+	void updateText(float xPos, float yPos, float zPos, float xVel, float yVel, float zVel, float xThrust, float yThrust, float zLift);
+	//void setSize(float size);
 
-    void setPosition(osg::Vec3d position);
+	std::string setPositionString(float xPos, float yPos, float zPos);
+	std::string setVelocityString(float xVel, float yVel, float zVel);
+	std::string setForcesString(float xThrust, float yThrust, float zLift);
 	  
     osg::Camera * getHudCamera();
     osg::Geode * getHudGeode();

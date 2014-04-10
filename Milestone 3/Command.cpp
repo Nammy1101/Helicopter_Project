@@ -59,6 +59,8 @@ bool Command::wait(SleepThread * sleepThread)
 	{
 		return false;
 	}
-	delete sleepThread;
-	return true;
+	else{
+		delete sleepThread;
+		return true;
+	}
 }
