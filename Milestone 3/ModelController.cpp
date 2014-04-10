@@ -51,10 +51,10 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 			case 'l': case 'L':
 				Logger::getInstance()->toggleLogging();
 			    break;
-			case 'a': case 'A':
+			case 'd': case 'D':
 				gameRender->setRoll(-1);
 				break;
-			case 'd': case 'D':
+			case 'a': case 'A':
 				gameRender->setRoll(1);
 				break;
 			case 'w': case 'W':

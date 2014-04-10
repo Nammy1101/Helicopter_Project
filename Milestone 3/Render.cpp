@@ -33,7 +33,7 @@
 #include <osg/FrameStamp>
 //#include "Hud.h"
 void Render::Game_Play(){
-
+	/*
 	//displayControls.initializeHudText();
 //	displayLogPos.initializeHudText();
 	//displayLogVel.initializeHudText();
@@ -46,6 +46,8 @@ void Render::Game_Play(){
 	osg::Camera * logCameraAcc;
 	osg::Camera * thrustCamera;
 	osg::Camera * orientationCamera;*/
+	hud.initializeHudText();
+	osg::Camera * hudCamera;
 	fired = false;
 	ScriptRunner * sr = ScriptRunner::getInstance();
 	sr->setRender(this);
@@ -112,6 +114,30 @@ void Render::Game_Play(){
 
 	helicopterThrust = osg::Vec3f(0.0, 0.0, 0.0);
 
+	displayControls.addText("Controls:");
+	displayControls.addText("Pitch: forward: W Backwards: S");
+	displayControls.addText("Roll: Left: A Right: D");
+	displayControls.addText("Yaw: Left: left arrow right: right arrow");
+	displayControls.addText("RotorThrust: increase: 2 decrease: 1");
+	displayControls.addText("Hover: 3");
+	displayControls.addText("No power: 0");
+	displayControls.addText("Center Joystick: C");
+	displayControls.addText("Move: Point Mouse");
+	controlCamera = displayControls.getHudCamera();
+	logCameraPos = displayLogPos.getHudCamera();
+	logCameraVel = displayLogVel.getHudCamera();
+	logCameraAcc = displayLogAcc.getHudCamera();
+	thrustCamera = displayThrust.getHudCamera();
+	orientationCamera = displayOrientation.getHudCamera();
+	/*
+	displayControls.setText("Controls: \nPitch: forward: W Backwards: S \nRoll: Left: A Right: D\nYaw: Left: left arrow right: right arrow\nRotorThrust: increase: 2 decrease: 1\nHover: 3\nNo power: 0\nCenter Joystick: C\nMove: Point Mouse"  );
+	controlCamera = displayControls.getHudCamera();
+	logCameraPos = displayLogPos.getHudCamera();
+	logCameraVel = displayLogVel.getHudCamera();
+	logCameraAcc = displayLogAcc.getHudCamera();
+	thrustCamera = displayThrust.getHudCamera();
+	orientationCamera = displayOrientation.getHudCamera();*/
+	hudCamera = hud.getHudCamera();
 	missileTransform = new osg::PositionAttitudeTransform;
 	missileTransform->addChild(missile.get());
 	missileTransform->setPosition(modelPosition);
@@ -140,6 +166,19 @@ void Render::Game_Play(){
 	rootNode->addChild( groundTransform.get());
 	rootNode->addChild( helicopterTransform.get());
 	rootNode->addChild( torusGroup.get());
+	rootNode->addChild( controlCamera);
+	rootNode->addChild( logCameraPos);
+	rootNode->addChild( logCameraVel);
+	rootNode->addChild( logCameraAcc);
+	rootNode->addChild( thrustCamera);
+	rootNode->addChild( orientationCamera);
+	rootNode->addChild(hudCamera);
+	/*rootNode->addChild( controlCamera);
+	rootNode->addChild( logCameraPos);
+	rootNode->addChild( logCameraVel);
+	rootNode->addChild( logCameraAcc);
+	rootNode->addChild( thrustCamera);
+	rootNode->addChild( orientationCamera);*/
 	rootNode->addChild(missileTransform.get());
 	//rootNode->addChild( controlCamera);
 	//rootNode->addChild( logCameraPos);
@@ -148,8 +187,8 @@ void Render::Game_Play(){
 	//rootNode->addChild( thrustCamera);
 	//rootNode->addChild( orientationCamera);
 
-	//osg::ref_ptr<osg::Group> rootNode2 = new osg::Group;
-	//rootNode2->addChild( controlCamera);
+	osg::ref_ptr<osg::Group> rootNode2 = new osg::Group;
+	rootNode2->addChild( controlCamera);
 
 	viewer.addEventHandler( ctrler.get());
 
@@ -355,7 +394,7 @@ void Render::updateGamePlay()
 	
 	//helicopter
 	float xPos = modelPosition.x() + (modelVelocity.x()*delta) + (0.5)*xAcc*(pow(delta,2));
-	float xVel = (modelVelocity.x() + xAcc*delta)*0.99999999999;
+	float xVel = (modelVelocity.x() + xAcc*delta)*0.99;
 	//missile
 	float misxPos;
 	float misxVel;
@@ -363,7 +402,7 @@ void Render::updateGamePlay()
 	
 	//helicopter
 	float yPos = modelPosition.y() + (modelVelocity.y()*delta) + (0.5)*yAcc*(pow(delta,2));
-	float yVel = (modelVelocity.y() + yAcc*delta)*0.99999999999;
+	float yVel = (modelVelocity.y() + yAcc*delta)*0.99;
 	//missile
 	float misyPos;
 	float misyVel;
@@ -371,7 +410,7 @@ void Render::updateGamePlay()
 	
 	//helicopter
 	float zPos = modelPosition.z() + (modelVelocity.z()*delta) + (0.5)*zAcc*(pow(delta,2));
-	float zVel = (modelVelocity.z() + zAcc*delta)*0.99999999999;
+	float zVel = (modelVelocity.z() + zAcc*delta)*0.99;
 	//missile
 	float miszPos;
 	float miszVel;
@@ -416,7 +455,7 @@ void Render::updateGamePlay()
 
 	if(zVel < -10 && zPos < 4){
 		//cout << "You have crashed" << endl;
-	//	hud.setText("YOU HAVE CRASHED!");
+		hud.setCrashedText("YOU HAVE CRASHED!");
 	}
 
 	if(zPos < 1){  //these ones should be radius of ball
@@ -436,7 +475,7 @@ void Render::updateGamePlay()
 	logger->log("X Vel: " + f2s(xVel) + " Y Vel: " + f2s(yVel) +" Z Vel: " + f2s(zVel));
 	logger->log("X Acc: " + f2s(xAcc) + " Y Acc: " + f2s(yAcc) +" Z Acc: " + f2s(zAcc));
 	logger->log("Throttle Position: " + f2s(rotorForce/Constants::getInstance()->baseThrottle));
-
+	/*
 	//displayLogPos.setLogTextPos("X Pos:       " + f2s(xPos) + "     Y Pos:      " + f2s(yPos) +"     Z Pos:      " + f2s(zPos));
 	//displayLogVel.setLogTextVel("X Vel:       " + f2s(xVel) + "     Y Vel:      " + f2s(yVel) +"     Z Vel:      " + f2s(zVel));
 //	displayLogAcc.setLogTextAcc("X Acc:       " + f2s(xAcc) + "     Y Acc:      " + f2s(yAcc) +"     Z Acc:      " + f2s(zAcc));
@@ -448,6 +487,8 @@ void Render::updateGamePlay()
 	missileTransform->setPosition(missilePositon);
 	
 	//missileTransform->setPosition(missilePositon);
+
+	*/
 
 	//helicopter
 	//cout << "x "<<modelVelocity.x() << " y " << modelVelocity.y() << " z " << modelVelocity.z()<< " "<<endl;
@@ -465,6 +506,8 @@ void Render::updateGamePlay()
 		);
 	
 	if(ScriptRunner::getInstance()->getStatus()){ ScriptRunner::getInstance()->doCommand();}
+
+	hud.updateText(xPos,yPos,zPos,xVel,yVel,zVel,helicopterThrust.x(),helicopterThrust.y(), liftZ);
 }
 
 std::string Render::f2s(float num){
