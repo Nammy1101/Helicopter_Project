@@ -55,22 +55,7 @@ class Render{
 	  bool fired;
 	  osg::Vec3f helicopterThrust;
 	  Hud hud;
-	  Hud displayControls;
-	  Hud displayLogPos;
-	  Hud displayLogVel;
-	  Hud displayLogAcc;
-	  Hud displayThrust;
-	  Hud displayOrientation;
-	  Hud hud;
 	  osg::Vec3f missileThrust;
-	  //Hud hud;
-	  //Hud displayControls;
-	  //Hud displayLogPos;/*
-	 /* Hud displayLogVel;
-	  Hud displayLogAcc;
-	  Hud displayThrust;
-	  Hud displayOrientation;
-	  */
   public:
 	  Render() : last(0) {
 		  aGrav = (Constants::getInstance()->gravity)*(-1);

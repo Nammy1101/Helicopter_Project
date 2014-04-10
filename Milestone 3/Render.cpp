@@ -31,21 +31,8 @@
 #include <osgGA/KeySwitchMatrixManipulator>
 #include <osgGA/NodeTrackerManipulator>
 #include <osg/FrameStamp>
-//#include "Hud.h"
+
 void Render::Game_Play(){
-	/*
-	//displayControls.initializeHudText();
-//	displayLogPos.initializeHudText();
-	//displayLogVel.initializeHudText();
-	//displayLogAcc.initializeHudText();
-	//displayThrust.initializeHudText();
-	//displayOrientation.initializeHudText();
-	/*osg::Camera * controlCamera;
-	osg::Camera * logCameraPos;
-	osg::Camera * logCameraVel;
-	osg::Camera * logCameraAcc;
-	osg::Camera * thrustCamera;
-	osg::Camera * orientationCamera;*/
 	hud.initializeHudText();
 	osg::Camera * hudCamera;
 	fired = false;
@@ -114,29 +101,6 @@ void Render::Game_Play(){
 
 	helicopterThrust = osg::Vec3f(0.0, 0.0, 0.0);
 
-	displayControls.addText("Controls:");
-	displayControls.addText("Pitch: forward: W Backwards: S");
-	displayControls.addText("Roll: Left: A Right: D");
-	displayControls.addText("Yaw: Left: left arrow right: right arrow");
-	displayControls.addText("RotorThrust: increase: 2 decrease: 1");
-	displayControls.addText("Hover: 3");
-	displayControls.addText("No power: 0");
-	displayControls.addText("Center Joystick: C");
-	displayControls.addText("Move: Point Mouse");
-	controlCamera = displayControls.getHudCamera();
-	logCameraPos = displayLogPos.getHudCamera();
-	logCameraVel = displayLogVel.getHudCamera();
-	logCameraAcc = displayLogAcc.getHudCamera();
-	thrustCamera = displayThrust.getHudCamera();
-	orientationCamera = displayOrientation.getHudCamera();
-	/*
-	displayControls.setText("Controls: \nPitch: forward: W Backwards: S \nRoll: Left: A Right: D\nYaw: Left: left arrow right: right arrow\nRotorThrust: increase: 2 decrease: 1\nHover: 3\nNo power: 0\nCenter Joystick: C\nMove: Point Mouse"  );
-	controlCamera = displayControls.getHudCamera();
-	logCameraPos = displayLogPos.getHudCamera();
-	logCameraVel = displayLogVel.getHudCamera();
-	logCameraAcc = displayLogAcc.getHudCamera();
-	thrustCamera = displayThrust.getHudCamera();
-	orientationCamera = displayOrientation.getHudCamera();*/
 	hudCamera = hud.getHudCamera();
 	missileTransform = new osg::PositionAttitudeTransform;
 	missileTransform->addChild(missile.get());
@@ -144,51 +108,13 @@ void Render::Game_Play(){
 	missileTransform->setScale(osg::Vec3(0.002f, 0.002f, 0.002f));
 	missilePositon.set(helicopterTransform->getPosition());
 	missileVelocity.set(osg::Vec3f(0.0,0.0,0.0));
-/*
-	displayControls.addText("Controls:");
-	displayControls.addText("Pitch: forward: W Backwards: S");
-	displayControls.addText("Roll: Left: A Right: D");t
-	displayControls.addText("Yaw: Left: left arrow right: right arrow");
-	displayControls.addText("RotorThrust: increase: 2 decrease: 1");
-	displayControls.addText("Hover: 3");
-	displayControls.addText("No power: 0");
-	displayControls.addText("Center Joystick: C");
-	displayControls.addText("Move: Point Mouse");*/
-	//controlCamera = displayControls.getHudCamera();
-	//logCameraPos = displayLogPos.getHudCamera();
-	//logCameraVel = displayLogVel.getHudCamera();
-	//logCameraAcc = displayLogAcc.getHudCamera();
-//	thrustCamera = displayThrust.getHudCamera();
-//	orientationCamera = displayOrientation.getHudCamera();
-
 
 	osg::ref_ptr<osg::Group> rootNode = new osg::Group;  //Create a group node
 	rootNode->addChild( groundTransform.get());
 	rootNode->addChild( helicopterTransform.get());
 	rootNode->addChild( torusGroup.get());
-	rootNode->addChild( controlCamera);
-	rootNode->addChild( logCameraPos);
-	rootNode->addChild( logCameraVel);
-	rootNode->addChild( logCameraAcc);
-	rootNode->addChild( thrustCamera);
-	rootNode->addChild( orientationCamera);
 	rootNode->addChild(hudCamera);
-	/*rootNode->addChild( controlCamera);
-	rootNode->addChild( logCameraPos);
-	rootNode->addChild( logCameraVel);
-	rootNode->addChild( logCameraAcc);
-	rootNode->addChild( thrustCamera);
-	rootNode->addChild( orientationCamera);*/
 	rootNode->addChild(missileTransform.get());
-	//rootNode->addChild( controlCamera);
-	//rootNode->addChild( logCameraPos);
-	//rootNode->addChild( logCameraVel);
-	//rootNode->addChild( logCameraAcc);
-	//rootNode->addChild( thrustCamera);
-	//rootNode->addChild( orientationCamera);
-
-	osg::ref_ptr<osg::Group> rootNode2 = new osg::Group;
-	rootNode2->addChild( controlCamera);
 
 	viewer.addEventHandler( ctrler.get());
 
