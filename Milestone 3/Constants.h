@@ -14,6 +14,7 @@
 #include <fstream>
 #include "HelicopterConfig.h"
 #include "SleepThread.h"
+#include "missile.h"
 
 enum ATTR_TYPE {G_ACCEL};
 
@@ -30,6 +31,7 @@ public:
 	float frictionConstant;
 	float baseThrottle;
 	HelicopterConfig* helicopter;
+	MissileConfig* missile;
 	static Constants* Constants::getInstance(){
 		static Constants *instance = 0;
 		if(instance == 0){

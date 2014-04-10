@@ -36,6 +36,8 @@ void ScriptRunner::setActions(vector<Command> newActions)
 
 vector<Command> ScriptRunner::parseScript(ifstream & script)
 {
+
+	
 	bool endFound = false;
 	vector<Command> actionList;
 	while(!endFound)

@@ -1,3 +1,5 @@
+
+
 /*
 	Render
 		Holds the functions used for setting up the world and doing the physics and math calculations required to make the helicopter move
@@ -29,26 +31,27 @@
 #include <osgGA/KeySwitchMatrixManipulator>
 #include <osgGA/NodeTrackerManipulator>
 #include <osg/FrameStamp>
-
+//#include "Hud.h"
 void Render::Game_Play(){
 
-	displayControls.initializeHudText();
-	displayLogPos.initializeHudText();
-	displayLogVel.initializeHudText();
-	displayLogAcc.initializeHudText();
-	displayThrust.initializeHudText();
-	displayOrientation.initializeHudText();
-	osg::Camera * controlCamera;
+	//displayControls.initializeHudText();
+//	displayLogPos.initializeHudText();
+	//displayLogVel.initializeHudText();
+	//displayLogAcc.initializeHudText();
+	//displayThrust.initializeHudText();
+	//displayOrientation.initializeHudText();
+	/*osg::Camera * controlCamera;
 	osg::Camera * logCameraPos;
 	osg::Camera * logCameraVel;
 	osg::Camera * logCameraAcc;
 	osg::Camera * thrustCamera;
-	osg::Camera * orientationCamera;
+	osg::Camera * orientationCamera;*/
+	fired = false;
 	ScriptRunner * sr = ScriptRunner::getInstance();
 	sr->setRender(this);
 	osg::ref_ptr<osg::Node> helicopter = osgDB::readNodeFile("Sikorsky2.osg");
 	osg::ref_ptr<osg::Node> ground = osgDB::readNodeFile("lz.osg");
-	
+	osg::ref_ptr<osg::Node> missile = osgDB::readNodeFile("missile.3DS") ; 
 	ball1  = new osg::ShapeDrawable;
 	ball1->setShape( new osg::Sphere(osg::Vec3(0.0f, 0.0f,0.0f), 25.0f));
 	ball1->setColor(osg::Vec4(0.0f,0.0f,1.0f,1.0f));
@@ -109,36 +112,44 @@ void Render::Game_Play(){
 
 	helicopterThrust = osg::Vec3f(0.0, 0.0, 0.0);
 
+	missileTransform = new osg::PositionAttitudeTransform;
+	missileTransform->addChild(missile.get());
+	missileTransform->setPosition(modelPosition);
+	missileTransform->setScale(osg::Vec3(0.002f, 0.002f, 0.002f));
+	missilePositon.set(helicopterTransform->getPosition());
+	missileVelocity.set(osg::Vec3f(0.0,0.0,0.0));
+/*
 	displayControls.addText("Controls:");
 	displayControls.addText("Pitch: forward: W Backwards: S");
-	displayControls.addText("Roll: Left: A Right: D");
+	displayControls.addText("Roll: Left: A Right: D");t
 	displayControls.addText("Yaw: Left: left arrow right: right arrow");
 	displayControls.addText("RotorThrust: increase: 2 decrease: 1");
 	displayControls.addText("Hover: 3");
 	displayControls.addText("No power: 0");
 	displayControls.addText("Center Joystick: C");
-	displayControls.addText("Move: Point Mouse");
-	controlCamera = displayControls.getHudCamera();
-	logCameraPos = displayLogPos.getHudCamera();
-	logCameraVel = displayLogVel.getHudCamera();
-	logCameraAcc = displayLogAcc.getHudCamera();
-	thrustCamera = displayThrust.getHudCamera();
-	orientationCamera = displayOrientation.getHudCamera();
+	displayControls.addText("Move: Point Mouse");*/
+	//controlCamera = displayControls.getHudCamera();
+	//logCameraPos = displayLogPos.getHudCamera();
+	//logCameraVel = displayLogVel.getHudCamera();
+	//logCameraAcc = displayLogAcc.getHudCamera();
+//	thrustCamera = displayThrust.getHudCamera();
+//	orientationCamera = displayOrientation.getHudCamera();
 
 
 	osg::ref_ptr<osg::Group> rootNode = new osg::Group;  //Create a group node
 	rootNode->addChild( groundTransform.get());
 	rootNode->addChild( helicopterTransform.get());
 	rootNode->addChild( torusGroup.get());
-	rootNode->addChild( controlCamera);
-	rootNode->addChild( logCameraPos);
-	rootNode->addChild( logCameraVel);
-	rootNode->addChild( logCameraAcc);
-	rootNode->addChild( thrustCamera);
-	rootNode->addChild( orientationCamera);
+	rootNode->addChild(missileTransform.get());
+	//rootNode->addChild( controlCamera);
+	//rootNode->addChild( logCameraPos);
+	//rootNode->addChild( logCameraVel);
+	//rootNode->addChild( logCameraAcc);
+	//rootNode->addChild( thrustCamera);
+	//rootNode->addChild( orientationCamera);
 
-	osg::ref_ptr<osg::Group> rootNode2 = new osg::Group;
-	rootNode2->addChild( controlCamera);
+	//osg::ref_ptr<osg::Group> rootNode2 = new osg::Group;
+	//rootNode2->addChild( controlCamera);
 
 	viewer.addEventHandler( ctrler.get());
 
@@ -160,6 +171,7 @@ void Render::Game_Play(){
 
 
 	last = 0;
+
 	viewer.run();
 }
 
@@ -186,10 +198,11 @@ void Render::increaseRotor()
 
 	if (rotorForce < baseThrottle*maxThrottle){
 		rotorForce += baseThrottle; // 0.2;
-		std::cout << rotorForce;
+		std::cout << rotorForce << " ";
 	}
-	else
+	else{
 		rotorForce = baseThrottle*maxThrottle;
+	}
 }
 
 void Render::decreaseRotor()
@@ -289,24 +302,44 @@ bool Render::detectCollision(osg::BoundingSphere& bs1, osg::BoundingSphere& bs2)
 
 void Render::updateGamePlay()
 {
-	if (Render::detectCollision(osg::BoundingSphere(helicopterTransform->getBound()), osg::BoundingSphere(tor1Tr->getBound())))
+	if (Render::detectCollision(osg::BoundingSphere(helicopterTransform->getBound()), osg::BoundingSphere(tor1Tr->getBound())) || Render::detectCollision(osg::BoundingSphere(missileTransform->getBound()), osg::BoundingSphere(tor1Tr->getBound())))
 	{
 		ball1->setColor(osg::Vec4(1.0f,0.0f,0.0f,0.0f));
 		Logger::getInstance()->log("Collision with ball #1");
 	}
-	if (Render::detectCollision(osg::BoundingSphere(helicopterTransform->getBound()), osg::BoundingSphere(tor2Tr->getBound())))
+	if (Render::detectCollision(osg::BoundingSphere(helicopterTransform->getBound()), osg::BoundingSphere(tor2Tr->getBound())) || Render::detectCollision(osg::BoundingSphere(missileTransform->getBound()), osg::BoundingSphere(tor2Tr->getBound())))
 	{
 		ball2->setColor(osg::Vec4(1.0f,0.0f,0.0f,0.0f));
 		Logger::getInstance()->log("Collision with ball #2");
 	}
-	if (Render::detectCollision(osg::BoundingSphere(helicopterTransform->getBound()), osg::BoundingSphere(tor3Tr->getBound())))
+	if (Render::detectCollision(osg::BoundingSphere(helicopterTransform->getBound()), osg::BoundingSphere(tor3Tr->getBound())) || Render::detectCollision(osg::BoundingSphere(missileTransform->getBound()), osg::BoundingSphere(tor3Tr->getBound())))
 	{
 		ball3->setColor(osg::Vec4(1.0f,0.0f,0.0f,0.0f));
 		Logger::getInstance()->log("Collision with ball #3");
 	}
+	//Missile values
+	
+	float misfrictionScalar = Constants::getInstance()->frictionConstant*sqrt(pow(missileVelocity.x(),2)+pow(missileVelocity.y(),2)+pow(missileVelocity.x(),2));
+	float mismass = Constants::getInstance()->missile->mass;
+	
+	float misaxForce = missileThrust.x() - misfrictionScalar*missileVelocity.x();
+	float misayForce = missileThrust.y() - misfrictionScalar*missileVelocity.y();
+	float misazForce = aGrav*mismass  + missileThrust.z() - misfrictionScalar*missileVelocity.z();
+
+
+	float misxAcc = misaxForce/mismass;
+	float misyAcc = misayForce/mismass;
+	float miszAcc = misazForce/mismass;
+
+
+	//float misdelta = viewer.getFrameStamp()->getReferenceTime() - last;
+	
+
 
 	float frictionScalar = Constants::getInstance()->frictionConstant*sqrt(pow(modelVelocity.x(),2)+pow(modelVelocity.y(),2)+pow(modelVelocity.z(),2));
 	float mass = Constants::getInstance()->helicopter->mass;
+
+	
 
 	float axForce = helicopterThrust.x() - frictionScalar*modelVelocity.x();
 	float ayForce = helicopterThrust.y() - frictionScalar*modelVelocity.y();
@@ -319,15 +352,66 @@ void Render::updateGamePlay()
 	float delta = viewer.getFrameStamp()->getReferenceTime() - last;
 	last = viewer.getFrameStamp()->getReferenceTime();
 
+	
+	//helicopter
 	float xPos = modelPosition.x() + (modelVelocity.x()*delta) + (0.5)*xAcc*(pow(delta,2));
 	float xVel = (modelVelocity.x() + xAcc*delta)*0.99999999999;
-
+	//missile
+	float misxPos;
+	float misxVel;
+	
+	
+	//helicopter
 	float yPos = modelPosition.y() + (modelVelocity.y()*delta) + (0.5)*yAcc*(pow(delta,2));
 	float yVel = (modelVelocity.y() + yAcc*delta)*0.99999999999;
-
+	//missile
+	float misyPos;
+	float misyVel;
+	
+	
+	//helicopter
 	float zPos = modelPosition.z() + (modelVelocity.z()*delta) + (0.5)*zAcc*(pow(delta,2));
 	float zVel = (modelVelocity.z() + zAcc*delta)*0.99999999999;
-
+	//missile
+	float miszPos;
+	float miszVel;
+	
+	//cout << fired << " ";
+	if(!fired){
+		missileVelocity.set(modelVelocity);
+		missilePositon.set(modelPosition);
+		missileTransform->setAttitude(
+		osg::Quat(
+			osg::DegreesToRadians(helicopterOrientation.x_theta ),osg::Vec3f(1,0,0),
+			osg::DegreesToRadians(helicopterOrientation.y_theta),osg::Vec3f(0,1,0),
+			osg::DegreesToRadians(helicopterOrientation.z_theta ),osg::Vec3f(0,0,1)
+			)
+		);
+		cout << "here " <<endl;
+	}else{
+		misxPos = missilePositon.x() + (missileVelocity.x()*delta);
+		misxVel = (missileVelocity.x())*0.99999999999;
+		misyPos = missilePositon.y() + (missileVelocity.y()*delta) ;
+		misyVel = (missileVelocity.y())*0.99999999999;
+		miszPos =  (missilePositon.z() + (missileVelocity.z()*delta)) ;
+		miszVel = missileVelocity.z();
+		/*if(miszPos < 1){
+			miszPos = 1;
+			miszVel = 0;
+			misxVel = 0;
+			misyVel = 0;
+		}*/
+		missilePositon.set(osg::Vec3d(misxPos, misyPos, miszPos));
+		missileVelocity.set(osg::Vec3f(misxVel, misyVel, miszVel));
+		missileTransform->setAttitude(
+		osg::Quat(
+			osg::DegreesToRadians(missileOrientation.x_theta ),osg::Vec3f(1,0,0),
+			osg::DegreesToRadians(missileOrientation.y_theta),osg::Vec3f(0,1,0),
+			osg::DegreesToRadians(missileOrientation.z_theta+180 ),osg::Vec3f(0,0,1)
+			)
+		);
+	}
+	
 	float liftZ = zAcc/Constants::getInstance()->gravity;
 
 	if(zVel < -10 && zPos < 4){
@@ -340,6 +424,12 @@ void Render::updateGamePlay()
 		zVel *= 0.8;
 		zVel = -zVel;
 	}
+	
+	if(zPos > 100000){
+		zPos = 1;
+		zVel *= 0.8;
+		zVel = -zVel;
+	}
 	Logger* logger = Logger::getInstance();
 	string something = f2s(xPos);
 	logger->log("X Pos: " + f2s(xPos) + " Y Pos: " + f2s(yPos) +" Z Pos: " + f2s(zPos)); 
@@ -347,14 +437,24 @@ void Render::updateGamePlay()
 	logger->log("X Acc: " + f2s(xAcc) + " Y Acc: " + f2s(yAcc) +" Z Acc: " + f2s(zAcc));
 	logger->log("Throttle Position: " + f2s(rotorForce/Constants::getInstance()->baseThrottle));
 
-	displayLogPos.setLogTextPos("X Pos:       " + f2s(xPos) + "     Y Pos:      " + f2s(yPos) +"     Z Pos:      " + f2s(zPos));
-	displayLogVel.setLogTextVel("X Vel:       " + f2s(xVel) + "     Y Vel:      " + f2s(yVel) +"     Z Vel:      " + f2s(zVel));
-	displayLogAcc.setLogTextAcc("X Acc:       " + f2s(xAcc) + "     Y Acc:      " + f2s(yAcc) +"     Z Acc:      " + f2s(zAcc));
-	displayThrust.setThrust("Thrust in X: " + f2s(helicopterThrust.x()) + " Thrust in Y: " + f2s(helicopterThrust.y()) + " Lift in Z direction: " + f2s(liftZ));
-	displayOrientation.setOrientation("Orientation in X: " + f2s(90 + helicopterOrientation.x_theta) + " Orientation in Y: " + f2s(helicopterOrientation.y_theta) + " Orientation in Z: " + f2s(helicopterOrientation.z_theta));
+	//displayLogPos.setLogTextPos("X Pos:       " + f2s(xPos) + "     Y Pos:      " + f2s(yPos) +"     Z Pos:      " + f2s(zPos));
+	//displayLogVel.setLogTextVel("X Vel:       " + f2s(xVel) + "     Y Vel:      " + f2s(yVel) +"     Z Vel:      " + f2s(zVel));
+//	displayLogAcc.setLogTextAcc("X Acc:       " + f2s(xAcc) + "     Y Acc:      " + f2s(yAcc) +"     Z Acc:      " + f2s(zAcc));
+//	displayThrust.setThrust("Thrust in X: " + f2s(helicopterThrust.x()) + " Thrust in Y: " + f2s(helicopterThrust.y()) + " Lift in Z direction: " + f2s(liftZ));
+//	displayOrientation.setOrientation("Orientation in X: " + f2s(90 + helicopterOrientation.x_theta) + " Orientation in Y: " + f2s(helicopterOrientation.y_theta) + " Orientation in Z: " + f2s(helicopterOrientation.z_theta));
+	
+	
+	//missile
+	missileTransform->setPosition(missilePositon);
+	
+	//missileTransform->setPosition(missilePositon);
 
+	//helicopter
+	//cout << "x "<<modelVelocity.x() << " y " << modelVelocity.y() << " z " << modelVelocity.z()<< " "<<endl;
+	//cout << "m x "<<missilePositon.x() << "m y " << missilePositon.y() << "m z " << missilePositon.z()<< " "<<endl;
 	modelPosition.set(osg::Vec3d(xPos, yPos, zPos));
 	modelVelocity.set(osg::Vec3f(xVel, yVel, zVel));
+	
 	helicopterTransform->setPosition(modelPosition);
 	helicopterTransform->setAttitude(
 		osg::Quat(
@@ -363,6 +463,7 @@ void Render::updateGamePlay()
 			osg::DegreesToRadians(helicopterOrientation.z_theta),osg::Vec3f(0,0,1)
 			)
 		);
+	
 	if(ScriptRunner::getInstance()->getStatus()){ ScriptRunner::getInstance()->doCommand();}
 }
 
@@ -383,4 +484,28 @@ void Render::setPitch(float angle){
 }
 void Render::setRoll(float angle){
 	helicopterOrientation.y_theta += angle;
+}
+void Render::fireMissile(){
+	//osg::Vec3f velocity;
+	if(!fired){
+	float velx = (modelVelocity.x() + Constants::getInstance()->missile->Airspeed*sin(helicopterOrientation.z_theta)*cos(helicopterOrientation.y_theta));
+	float vely =  (modelVelocity.y() + Constants::getInstance()->missile->Airspeed*cos(helicopterOrientation.z_theta)*sin(helicopterOrientation.y_theta));
+	float velz = modelVelocity.z();
+	cout << "x "<<velx << " y " << vely << " z " << velz << " "<<endl;
+	cout << "x "<<modelVelocity.x() << " y " << modelVelocity.y() << " z " << modelVelocity.z()<< " "<<endl;
+	//velocity.set();
+	fired = true;
+	
+	//float velz = velocity*cos(helicopterOrientation.z_theta);
+	missileVelocity.set(osg::Vec3f(velx,vely,velz));
+	missileTransform->setAttitude(
+		osg::Quat(
+			osg::DegreesToRadians(helicopterOrientation.x_theta ),osg::Vec3f(1,0,0),
+			osg::DegreesToRadians(helicopterOrientation.y_theta),osg::Vec3f(0,1,0),
+			osg::DegreesToRadians(helicopterOrientation.z_theta ),osg::Vec3f(0,0,1)
+			)
+		);
+	}
+	//if(missileCount > 0){
+	//}
 }

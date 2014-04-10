@@ -3,10 +3,12 @@ delay 4
 throttle 9
 delay 2
 throttle 10
-#should be close to hovering
+
 
 set_joystick 10 45
 delay 10
-centre_joystick
-delay 30
+throttle 40
+delay 15
+set_joystick 5 80
+delay 12
 end

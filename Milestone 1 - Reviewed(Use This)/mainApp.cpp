@@ -21,6 +21,17 @@ int main(int argc, char** argv)
 	ScriptRunner * sr = ScriptRunner::getInstance();
 	Logger * logger = Logger::getInstance();
 	osg::ArgumentParser parser = osg::ArgumentParser(&argc, argv);
+	string filename; // filename for script 
+	
+
+	if(parser.containsOptions()){
+		//grabs the file name that is associated with the --script 
+	parser.read("--script",filename);
+		ifstream infile;
+		infile.open(filename);
+		sr->setActions(sr->parseScript(infile));
+	}           
+	/*
 	if(parser.containsOptions()){
 		int sLoc = parser.find("-s");
 		int aLoc = parser.find("-a");
@@ -54,7 +65,7 @@ int main(int argc, char** argv)
 				logger->setFileName("helicopterLog.txt");
 			}
 	}
-
+	*/
 	render.Game_Play();
 	return 0;
 }

@@ -26,6 +26,7 @@
 		this->baseThrottle = helicopter->mass*gravity/10;
 		this->disableMouse = true;
 		this->loggingOn = false;
+		this->missile = new MissileConfig();
 	}
 
 	void Constants::setConstantsFromFile(std::ifstream & infile)

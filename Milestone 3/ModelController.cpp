@@ -69,6 +69,9 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 			case osgGA::GUIEventAdapter::KEY_Left:
 				gameRender->setYaw(2.0f);
 	    break;
+			case 'f' : case 'F':
+				gameRender->fireMissile();
+				break;
 			}
 			break;
 	}

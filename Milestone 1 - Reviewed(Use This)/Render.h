@@ -59,6 +59,7 @@ class Render{
   	  void updateGamePlay();
 	  void startMoving();
 	  void centerJoyStick();
+	  void toggleMouse();
 	  osg::Vec3f calculateForceDirections(float force, osg::Vec2f direction);
 	  bool detectCollision(osg::BoundingSphere& bs1, osg::BoundingSphere& bs2);
 	  void changeBallColour(osg::ref_ptr<osg::PositionAttitudeTransform>& ball);

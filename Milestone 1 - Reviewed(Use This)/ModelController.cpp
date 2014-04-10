@@ -11,11 +11,13 @@
 #include "ScriptRunner.h"
 #include "Logger.h"
 
+
 //Override
 bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 		                       osgGA::GUIActionAdapter& aa )
 {
-	ScriptRunner * sr = ScriptRunner::getInstance();	if ( !_model )
+	ScriptRunner * sr = ScriptRunner::getInstance();	
+	if ( !_model )
 	{
 			return false;  //Make sure model is initialized
 	}
@@ -31,7 +33,7 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
     		case '1':
 				gameRender->decreaseRotor();
 				break;
-				//centers the rotors angle theta and phi(heading and angle) to nut
+				//centers the rotors angle theta and phi(heading and angle) to null
 			case 'c': case 'C':
 				gameRender->centerJoyStick();
 				break;
@@ -41,6 +43,12 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 			case '0':
 				gameRender->setRotorZero();
 				break;
+			case 's': case 'S':
+				
+				
+				//When the s button is pressed run the script
+			
+				if(sr->getStatus()){sr->runScripts();}
 			}
 			break;
 	}

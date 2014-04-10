@@ -81,7 +81,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OSG_ROOT)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Dylan Rush\dev\Helicopter_Project\Milestone 1 - Reviewed%28Use This%29\cxxtest-4.3;$(OSG_ROOT)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>osgd.lib;osgViewerd.lib;osgDBd.lib;osgGAd.lib;osgFXd.lib;osgUtild.lib;OpenThreadsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

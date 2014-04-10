@@ -29,6 +29,7 @@
 #include <osg/Geode>
 #include "util.h"
 #include "Hud.h"
+#include "Missile.h"
 
 class Render{
   private:
@@ -41,23 +42,32 @@ class Render{
 	  osg::ref_ptr<osg::ShapeDrawable> ball2;
 	  osg::ref_ptr<osg::ShapeDrawable> ball3;
 	  osg::Vec3d modelPosition;
+	  
 	  osg::Vec3f modelVelocity;
+	  osg::Vec3d missilePositon;
+	  osg::Vec3f missileVelocity;
 	  osgViewer::Viewer viewer;
+	  osg::ref_ptr<osg::PositionAttitudeTransform> missileTransform;
 	  float last;
 	  float aGrav;
 	  float rotorForce;
+	  int missileCount;
+	  bool fired;
 	  osg::Vec3f helicopterThrust;
-	  Hud hud;
-	  Hud displayControls;
-	  Hud displayLogPos;
-	  Hud displayLogVel;
+	  osg::Vec3f missileThrust;
+	  //Hud hud;
+	  //Hud displayControls;
+	  //Hud displayLogPos;/*
+	 /* Hud displayLogVel;
 	  Hud displayLogAcc;
 	  Hud displayThrust;
 	  Hud displayOrientation;
+	  */
   public:
 	  Render() : last(0) {
 		  aGrav = (Constants::getInstance()->gravity)*(-1);
-		rotorForce = 0;
+		  rotorForce = 0;
+		  missileCount = 10;
 	  }
 	  void setScene();
 	  void Game_Play();
@@ -74,6 +84,7 @@ class Render{
 	  void setPitch(float angle);
   	  void updateGamePlay();
 	  void centerJoyStick();
+	  void fireMissile();
 	  osg::Vec3f calculateForceDirections(float force, osg::Vec2f direction);
 	  bool detectCollision(osg::BoundingSphere& bs1, osg::BoundingSphere& bs2);
 	  void changeBallColour(osg::ref_ptr<osg::PositionAttitudeTransform>& ball);
@@ -81,6 +92,7 @@ class Render{
 
 	  void setPosition(osg::Vec3d Position);
 	  struct Orientation helicopterOrientation;
+	  struct Orientation missileOrientation;
 };
 
 #endif

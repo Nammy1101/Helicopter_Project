@@ -17,6 +17,7 @@
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="mainApp.cpp" />
+    <ClCompile Include="Missile.cpp" />
     <ClCompile Include="ModelController.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="ScriptRunner.cpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="HelicopterConfig.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="Missile.h" />
     <ClInclude Include="ModelController.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="ScriptRunner.h" />
