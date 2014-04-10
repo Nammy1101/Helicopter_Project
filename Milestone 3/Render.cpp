@@ -107,7 +107,7 @@ void Render::Game_Play(){
 	groundTransform->setScale(osg::Vec3(30.0f, 30.0f, 1.0f));
 	
 	modelPosition.set(helicopterTransform->getPosition());
-	modelVelocity.set(osg::Vec3f(0,0,0));
+	modelVelocity.set(osg::Vec3f(0,0,-4));
 
 	helicopterThrust = osg::Vec3f(0.0, 0.0, 0.0);
 
@@ -327,6 +327,9 @@ void Render::updateGamePlay()
 	if(zVel < -10 && zPos < 4){
 		//cout << "You have crashed" << endl;
 		hud.setCrashedText("YOU HAVE CRASHED!");
+		zPos = 0;
+		zVel *= 0.8;
+		zVel = -zVel;
 	}
 
 	if(zPos < 1){  //these ones should be radius of ball
@@ -359,7 +362,7 @@ void Render::updateGamePlay()
 		);
 	if(ScriptRunner::getInstance()->getStatus()){ ScriptRunner::getInstance()->doCommand();}
 
-	hud.updateText(xPos,yPos,zPos,xVel,yVel,zVel,helicopterThrust.x(),helicopterThrust.y(), liftZ);
+	hud.updateText(xPos,yPos,zPos,xVel,yVel,zVel,helicopterThrust.x(),helicopterThrust.y(), liftZ, helicopterOrientation.x_theta , helicopterOrientation.y_theta, helicopterOrientation.z_theta );
 }
 
 std::string Render::f2s(float num){

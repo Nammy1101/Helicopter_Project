@@ -51,7 +51,7 @@ class Render{
   public:
 	  Render() : last(0) {
 		  aGrav = (Constants::getInstance()->gravity)*(-1);
-		rotorForce = 0;
+		rotorForce = 10;
 	  }
 	  void setScene();
 	  void Game_Play();

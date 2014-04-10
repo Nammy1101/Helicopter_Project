@@ -16,5 +16,5 @@ SleepThread::SleepThread(int time)
 
 void SleepThread::run()
 {
-	Sleep(sleepTime * 1000);
+	Sleep(sleepTime * 10000);
 }

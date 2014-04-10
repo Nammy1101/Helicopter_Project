@@ -29,12 +29,13 @@ public:
     void run1();
     void run2();
     void setCrashedText(const std::string& hudTest);
-	void updateText(float xPos, float yPos, float zPos, float xVel, float yVel, float zVel, float xThrust, float yThrust, float zLift);
+	void updateText(float xPos, float yPos, float zPos, float xVel, float yVel, float zVel, float xThrust, float yThrust, float zLift, float xO, float yO, float zO);
 	//void setSize(float size);
 
 	std::string setPositionString(float xPos, float yPos, float zPos);
 	std::string setVelocityString(float xVel, float yVel, float zVel);
 	std::string setForcesString(float xThrust, float yThrust, float zLift);
+	std::string setOrientationString(float xO, float yO, float zO);
 	  
     osg::Camera * getHudCamera();
     osg::Geode * getHudGeode();

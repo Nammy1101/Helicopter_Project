@@ -64,6 +64,15 @@ void Hud::initializeHudText()
 	forces->setText(setForcesString(0,0,0));
 	forces->setPosition(osg::Vec3(0,160,0));
 	hudGeode->addDrawable(forces);
+
+	orientation = new osgText::Text;
+	orientation->setFont(osgText::readFontFile("fonts/vera.ttf"));
+	orientation->setColor(osg::Vec4(0,0,0,2.0f));
+	orientation->setCharacterSize(22.0f);
+	orientation->setLayout( osgText::Text::LEFT_TO_RIGHT );
+	orientation->setText(setOrientationString(0,0,0));
+	orientation->setPosition(osg::Vec3(0,140,0));
+	hudGeode->addDrawable(orientation);
 	/*
 	controlsText = new osgText::Text;
 	controlsText->setFont(osgText::readFontFile("fonts/vera.ttf"));
@@ -123,10 +132,22 @@ std::string Hud::setForcesString(float xThrust, float yThrust, float zLift){
 	return str;
 }
 
-void Hud::updateText(float xPos, float yPos, float zPos,float xVel, float yVel, float zVel, float xThrust, float yThrust, float zLift){
+std::string Hud::setOrientationString(float xO, float yO, float zO){
+		stringstream ss (stringstream::in | stringstream::out);
+
+	ss << "Orientation x: " << setw(10) << setprecision(1) << fixed << xO + 90
+		<< setw(10) << "y: " << setw(9) << yO << setw(15) << "z: " << setw(9)
+		<< zO;
+
+	string str = ss.str();
+	return str;
+}
+
+void Hud::updateText(float xPos, float yPos, float zPos,float xVel, float yVel, float zVel, float xThrust, float yThrust, float zLift, float xO, float yO, float zO){
 	position->setText(setPositionString(xPos,yPos,zPos));
 	velocity->setText(setVelocityString(xVel,yVel,zVel));
 	forces->setText(setForcesString(xThrust,yThrust,zLift));
+	orientation->setText(setOrientationString(xO,yO,zO));
 }
 
 void Hud::setCrashedText(const std::string& hudText)
