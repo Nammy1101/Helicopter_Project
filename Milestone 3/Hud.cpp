@@ -24,7 +24,7 @@ void Hud::initializeHudText()
 	controlsText->setColor(osg::Vec4(0,0,0,2.0f));
 	controlsText->setCharacterSize(20.0f);
 	controlsText->setLayout( osgText::Text::LEFT_TO_RIGHT );
-	controlsText->setText("Controls: \nPitch: forward: W Backwards: S \nRoll: Left: A Right: D\nYaw: Left: left arrow right: right arrow\nRotorThrust: increase: 2 decrease: 1\nHover: 3\nNo power: 0\nCenter Joystick: C\nMove: Point Mouse");
+	controlsText->setText("Controls: \nPitch: forward: W Backwards: S \nRoll: Left: A Right: D\nYaw: Left: left arrow right: right arrow\nRotorThrust: increase: 2 decrease: 1\nHover: 3\nNo power: 0\nCenter Joystick: C\nMove: Point Mouse \nToggle Friction: m");
 	controlsText->setPosition(osg::Vec3(900,980,0));
 
 	hudGeode->addDrawable(controlsText);
@@ -64,6 +64,15 @@ void Hud::initializeHudText()
 	forces->setText(setForcesString(0,0,0));
 	forces->setPosition(osg::Vec3(0,160,0));
 	hudGeode->addDrawable(forces);
+
+	orientation = new osgText::Text;
+	orientation->setFont(osgText::readFontFile("fonts/vera.ttf"));
+	orientation->setColor(osg::Vec4(0,0,0,2.0f));
+	orientation->setCharacterSize(22.0f);
+	orientation->setLayout( osgText::Text::LEFT_TO_RIGHT );
+	orientation->setText(setOrientationString(0,0,0));
+	orientation->setPosition(osg::Vec3(0,140,0));
+	hudGeode->addDrawable(orientation);
 	/*
 	controlsText = new osgText::Text;
 	controlsText->setFont(osgText::readFontFile("fonts/vera.ttf"));
@@ -93,9 +102,9 @@ osg::Geode * Hud::getHudGeode()
 std::string Hud::setPositionString(float xPos, float yPos, float zPos){
 	stringstream ss (stringstream::in | stringstream::out);
 
-	ss << "Position x: " << setw(9) << setprecision(0) << fixed << xPos
-		<< setw(9) << "y: " << setw(9) << yPos << setw(9) << "z: " << setw(9)
-		<< zPos;
+	ss << "Position x: " << setw(9) << left << setprecision(0) << fixed << xPos;
+	ss << "Position y: " << setw(9) << left << setprecision(0) << fixed << yPos;
+	ss << "Position z: " << setw(9) << left << setprecision(0) << fixed << zPos;
 
 	string str = ss.str();
 	return str;
@@ -104,9 +113,9 @@ std::string Hud::setPositionString(float xPos, float yPos, float zPos){
 std::string Hud::setVelocityString(float xVel, float yVel, float zVel){
 	stringstream ss (stringstream::in | stringstream::out);
 
-	ss << "Velocity x: " << setw(9) << setprecision(0) << fixed << xVel
-		<< setw(9) << "y: " << setw(9) << yVel << setw(9) << "z: " << setw(9)
-		<< zVel;
+	ss << "Velocity x: " << setw(9) << left << setprecision(0) << fixed << xVel;
+	ss << "Velocity y: " << setw(9) << left << setprecision(0) << fixed << yVel;
+	ss << "Velocity z: " << setw(9) << left << setprecision(0) << fixed << zVel;
 
 	string str = ss.str();
 	return str;
@@ -115,18 +124,30 @@ std::string Hud::setVelocityString(float xVel, float yVel, float zVel){
 std::string Hud::setForcesString(float xThrust, float yThrust, float zLift){
 	stringstream ss (stringstream::in | stringstream::out);
 
-	ss << "Thrust x: " << setw(10) << setprecision(1) << fixed << xThrust
-		<< setw(10) << "y: " << setw(9) << yThrust << setw(15) << "Lift z: " << setw(9)
-		<< zLift;
+	ss << "Thrust x: " << setw(9) << left << setprecision(0) << fixed << xThrust;
+	ss << "Thrust y: " << setw(9) << left << setprecision(0) << fixed << yThrust;
+	ss << "Lift z: " << setw(9) << left << setprecision(1) << fixed << zLift;
 
 	string str = ss.str();
 	return str;
 }
 
-void Hud::updateText(float xPos, float yPos, float zPos,float xVel, float yVel, float zVel, float xThrust, float yThrust, float zLift){
+std::string Hud::setOrientationString(float xO, float yO, float zO){
+	stringstream ss (stringstream::in | stringstream::out);
+
+	ss << "Orientation x: " << setw(9) << left << setprecision(0) << fixed << xO + 90;
+	ss << "Orientation y: " << setw(9) << left << setprecision(0) << fixed << yO;
+	ss << "Orientation z: " << setw(9) << left << setprecision(1) << fixed << zO;
+
+	string str = ss.str();
+	return str;
+}
+
+void Hud::updateText(float xPos, float yPos, float zPos,float xVel, float yVel, float zVel, float xThrust, float yThrust, float zLift, float xO, float yO, float zO){
 	position->setText(setPositionString(xPos,yPos,zPos));
 	velocity->setText(setVelocityString(xVel,yVel,zVel));
 	forces->setText(setForcesString(xThrust,yThrust,zLift));
+	orientation->setText(setOrientationString(xO,yO,zO));
 }
 
 void Hud::setCrashedText(const std::string& hudText)

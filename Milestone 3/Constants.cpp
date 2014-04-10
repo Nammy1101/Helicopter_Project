@@ -27,6 +27,7 @@
 		this->disableMouse = true;
 		this->loggingOn = false;
 		this->missile = new MissileConfig();
+		this->frictionOn = true;
 	}
 
 	void Constants::setConstantsFromFile(std::ifstream & infile)
@@ -67,6 +68,21 @@
 	float Constants::calculateFrictionConstant(float theta)
 	{
 		return (helicopter->mass*gravity*tan(osg::DegreesToRadians(theta)))/pow(helicopter->maxAirspeed, 2);
+	}
+
+	void Constants::toggleFriction(){
+	
+	if(frictionOn)
+	{
+		frictionConstant = calculateFrictionConstant(maxTheta);
+		loggingOn = false;
+	}
+	else
+	{
+		frictionConstant = 0;
+		loggingOn = true;
+	}
+	
 	}
 /*	Constants::~Constants(void)
 	{

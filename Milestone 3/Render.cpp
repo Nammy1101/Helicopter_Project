@@ -355,9 +355,9 @@ void Render::updateGamePlay()
 		cout << "here " <<endl;
 	}else{
 		misxPos = missilePositon.x() + (missileVelocity.x()*delta);
-		misxVel = (missileVelocity.x())*0.99999999999;
+		misxVel = (missileVelocity.x())*0.99;
 		misyPos = missilePositon.y() + (missileVelocity.y()*delta) ;
-		misyVel = (missileVelocity.y())*0.99999999999;
+		misyVel = (missileVelocity.y())*0.99;
 		miszPos =  (missilePositon.z() + (missileVelocity.z()*delta)) ;
 		miszVel = missileVelocity.z();
 		/*if(miszPos < 1){
@@ -382,6 +382,7 @@ void Render::updateGamePlay()
 	if(zVel < -10 && zPos < 4){
 		//cout << "You have crashed" << endl;
 		hud.setCrashedText("YOU HAVE CRASHED!");
+		zPos = 0;
 	}
 
 	if(zPos < 1){  //these ones should be radius of ball
@@ -401,20 +402,11 @@ void Render::updateGamePlay()
 	logger->log("X Vel: " + f2s(xVel) + " Y Vel: " + f2s(yVel) +" Z Vel: " + f2s(zVel));
 	logger->log("X Acc: " + f2s(xAcc) + " Y Acc: " + f2s(yAcc) +" Z Acc: " + f2s(zAcc));
 	logger->log("Throttle Position: " + f2s(rotorForce/Constants::getInstance()->baseThrottle));
-	/*
-	//displayLogPos.setLogTextPos("X Pos:       " + f2s(xPos) + "     Y Pos:      " + f2s(yPos) +"     Z Pos:      " + f2s(zPos));
-	//displayLogVel.setLogTextVel("X Vel:       " + f2s(xVel) + "     Y Vel:      " + f2s(yVel) +"     Z Vel:      " + f2s(zVel));
-//	displayLogAcc.setLogTextAcc("X Acc:       " + f2s(xAcc) + "     Y Acc:      " + f2s(yAcc) +"     Z Acc:      " + f2s(zAcc));
-//	displayThrust.setThrust("Thrust in X: " + f2s(helicopterThrust.x()) + " Thrust in Y: " + f2s(helicopterThrust.y()) + " Lift in Z direction: " + f2s(liftZ));
-//	displayOrientation.setOrientation("Orientation in X: " + f2s(90 + helicopterOrientation.x_theta) + " Orientation in Y: " + f2s(helicopterOrientation.y_theta) + " Orientation in Z: " + f2s(helicopterOrientation.z_theta));
-	
 	
 	//missile
 	missileTransform->setPosition(missilePositon);
 	
 	//missileTransform->setPosition(missilePositon);
-
-	*/
 
 	//helicopter
 	//cout << "x "<<modelVelocity.x() << " y " << modelVelocity.y() << " z " << modelVelocity.z()<< " "<<endl;
@@ -433,7 +425,7 @@ void Render::updateGamePlay()
 	
 	if(ScriptRunner::getInstance()->getStatus()){ ScriptRunner::getInstance()->doCommand();}
 
-	hud.updateText(xPos,yPos,zPos,xVel,yVel,zVel,helicopterThrust.x(),helicopterThrust.y(), liftZ);
+	hud.updateText(xPos,yPos,zPos,xVel,yVel,zVel,helicopterThrust.x(),helicopterThrust.y(), liftZ, helicopterOrientation.x_theta, helicopterOrientation.y_theta, helicopterOrientation.z_theta);
 }
 
 std::string Render::f2s(float num){

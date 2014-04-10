@@ -51,6 +51,9 @@ bool ModelController::handle( const osgGA::GUIEventAdapter& ea,
 			case 'l': case 'L':
 				Logger::getInstance()->toggleLogging();
 			    break;
+			case 'm': case 'M':
+				Constants::getInstance()->toggleFriction();
+				break;
 			case 'd': case 'D':
 				gameRender->setRoll(-1);
 				break;

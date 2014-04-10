@@ -43,9 +43,11 @@ public:
 	Constants(void);
 	float calculateFrictionConstant(float theta);
 	void setFrictionConstant(float theta);
+	void toggleFriction();
 //	~Constants(void);
 
 private:
 	static Constants* instance;
+	bool frictionOn;
 };
 
