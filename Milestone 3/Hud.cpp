@@ -23,6 +23,7 @@ void Hud::initializeHudText()
 	controlsText->setFont(osgText::readFontFile("fonts/vera.ttf"));
 	controlsText->setColor(osg::Vec4(0,0,0,2.0f));
 	controlsText->setCharacterSize(20.0f);
+	controlsText->setDataVariance(osg::Object::DYNAMIC );
 	controlsText->setLayout( osgText::Text::LEFT_TO_RIGHT );
 	controlsText->setText("Controls: \nPitch: forward: W Backwards: S \nRoll: Left: A Right: D\nYaw: Left: left arrow right: right arrow\nRotorThrust: increase: 2 decrease: 1\nHover: 3\nNo power: 0\nCenter Joystick: C\nMove: Point Mouse \nToggle Friction: m");
 	controlsText->setPosition(osg::Vec3(900,980,0));
@@ -31,6 +32,7 @@ void Hud::initializeHudText()
 
 	position = new osgText::Text;
 	position->setFont(osgText::readFontFile("fonts/vera.ttf"));
+	position->setDataVariance(osg::Object::DYNAMIC );
 	position->setColor(osg::Vec4(0,0,0,2.0f));
 	position->setCharacterSize(22.0f);
 	position->setLayout( osgText::Text::LEFT_TO_RIGHT );
@@ -40,6 +42,7 @@ void Hud::initializeHudText()
 
 	velocity = new osgText::Text;
 	velocity->setFont(osgText::readFontFile("fonts/vera.ttf"));
+	velocity->setDataVariance(osg::Object::DYNAMIC );
 	velocity->setColor(osg::Vec4(0,0,0,2.0f));
 	velocity->setCharacterSize(22.0f);
 	velocity->setLayout( osgText::Text::LEFT_TO_RIGHT );
@@ -49,6 +52,7 @@ void Hud::initializeHudText()
 
 	crashed = new osgText::Text;
 	crashed->setFont(osgText::readFontFile("fonts/vera.ttf"));
+	crashed->setDataVariance(osg::Object::DYNAMIC );
 	crashed->setColor(osg::Vec4(0,0,0,2.0f));
 	crashed->setCharacterSize(22.0f);
 	crashed->setLayout( osgText::Text::LEFT_TO_RIGHT );
@@ -58,6 +62,7 @@ void Hud::initializeHudText()
 
 	forces = new osgText::Text;
 	forces->setFont(osgText::readFontFile("fonts/vera.ttf"));
+	forces->setDataVariance(osg::Object::DYNAMIC );
 	forces->setColor(osg::Vec4(0,0,0,2.0f));
 	forces->setCharacterSize(22.0f);
 	forces->setLayout( osgText::Text::LEFT_TO_RIGHT );
@@ -67,6 +72,7 @@ void Hud::initializeHudText()
 
 	orientation = new osgText::Text;
 	orientation->setFont(osgText::readFontFile("fonts/vera.ttf"));
+	orientation->setDataVariance(osg::Object::DYNAMIC );
 	orientation->setColor(osg::Vec4(0,0,0,2.0f));
 	orientation->setCharacterSize(22.0f);
 	orientation->setLayout( osgText::Text::LEFT_TO_RIGHT );

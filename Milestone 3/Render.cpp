@@ -343,8 +343,15 @@ void Render::updateGamePlay()
 	
 	//cout << fired << " ";
 	if(!fired){
-		missileVelocity.set(modelVelocity);
-		missilePositon.set(modelPosition);
+		misxPos = modelPosition.x();
+		misyPos = modelPosition.y();
+		miszPos = modelPosition.z();
+		misxVel =-1* modelVelocity.x();
+		misyVel =-1* modelVelocity.y();
+		miszVel = modelVelocity.z();
+		
+		missilePositon.set(osg::Vec3d(misxPos, misyPos, miszPos));
+		missileVelocity.set(osg::Vec3f(misxVel, misyVel, miszVel));
 		missileTransform->setAttitude(
 		osg::Quat(
 			osg::DegreesToRadians(helicopterOrientation.x_theta ),osg::Vec3f(1,0,0),
@@ -354,6 +361,8 @@ void Render::updateGamePlay()
 		);
 		cout << "here " <<endl;
 	}else{
+
+		
 		misxPos = missilePositon.x() + (missileVelocity.x()*delta);
 		misxVel = (missileVelocity.x())*0.99;
 		misyPos = missilePositon.y() + (missileVelocity.y()*delta) ;
@@ -366,15 +375,16 @@ void Render::updateGamePlay()
 			misxVel = 0;
 			misyVel = 0;
 		}*/
+
 		missilePositon.set(osg::Vec3d(misxPos, misyPos, miszPos));
 		missileVelocity.set(osg::Vec3f(misxVel, misyVel, miszVel));
-		missileTransform->setAttitude(
+		/*missileTransform->setAttitude(
 		osg::Quat(
 			osg::DegreesToRadians(missileOrientation.x_theta ),osg::Vec3f(1,0,0),
 			osg::DegreesToRadians(missileOrientation.y_theta),osg::Vec3f(0,1,0),
 			osg::DegreesToRadians(missileOrientation.z_theta+180 ),osg::Vec3f(0,0,1)
 			)
-		);
+		);*/
 	}
 	
 	float liftZ = zAcc/Constants::getInstance()->gravity;
