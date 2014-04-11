@@ -78,6 +78,8 @@ class Render{
   	  void updateGamePlay();
 	  void centerJoyStick();
 	  void fireMissile();
+	  void updateMissile(float,float,float);
+	  void updateMissilepos(float,float,float);
 	  osg::Vec3f calculateForceDirections(float force, osg::Vec2f direction);
 	  bool detectCollision(osg::BoundingSphere& bs1, osg::BoundingSphere& bs2);
 	  void changeBallColour(osg::ref_ptr<osg::PositionAttitudeTransform>& ball);

@@ -346,20 +346,23 @@ void Render::updateGamePlay()
 		misxPos = modelPosition.x();
 		misyPos = modelPosition.y();
 		miszPos = modelPosition.z();
-		misxVel =-1* modelVelocity.x();
-		misyVel =-1* modelVelocity.y();
+		misxVel = modelVelocity.x();
+		misyVel = modelVelocity.y();
 		miszVel = modelVelocity.z();
-		
+		updateMissile(misxVel,misyVel,miszVel);
+		updateMissilepos(misxPos,misyPos,miszPos);
+		/*
 		missilePositon.set(osg::Vec3d(misxPos, misyPos, miszPos));
-		missileVelocity.set(osg::Vec3f(misxVel, misyVel, miszVel));
+		missileVelocity.set(osg::Vec3f(misxVel, misyVel, miszVel));*/
 		missileTransform->setAttitude(
 		osg::Quat(
 			osg::DegreesToRadians(helicopterOrientation.x_theta ),osg::Vec3f(1,0,0),
 			osg::DegreesToRadians(helicopterOrientation.y_theta),osg::Vec3f(0,1,0),
-			osg::DegreesToRadians(helicopterOrientation.z_theta ),osg::Vec3f(0,0,1)
+			osg::DegreesToRadians(helicopterOrientation.z_theta +180 ),osg::Vec3f(0,0,1)
 			)
 		);
-		cout << "here " <<endl;
+		missileTransform->setPosition(missilePositon);
+		//cout << "here " <<endl;
 	}else{
 
 		
@@ -375,16 +378,19 @@ void Render::updateGamePlay()
 			misxVel = 0;
 			misyVel = 0;
 		}*/
-
+		updateMissile(misxVel,misyVel,miszVel);
+		updateMissilepos(misxPos,misyPos,miszPos);
+		/*
 		missilePositon.set(osg::Vec3d(misxPos, misyPos, miszPos));
-		missileVelocity.set(osg::Vec3f(misxVel, misyVel, miszVel));
-		/*missileTransform->setAttitude(
+		missileVelocity.set(osg::Vec3f(misxVel, misyVel, miszVel));*/
+		missileTransform->setAttitude(
 		osg::Quat(
 			osg::DegreesToRadians(missileOrientation.x_theta ),osg::Vec3f(1,0,0),
 			osg::DegreesToRadians(missileOrientation.y_theta),osg::Vec3f(0,1,0),
 			osg::DegreesToRadians(missileOrientation.z_theta+180 ),osg::Vec3f(0,0,1)
 			)
-		);*/
+		);
+		missileTransform->setPosition(missilePositon);
 	}
 	
 	float liftZ = zAcc/Constants::getInstance()->gravity;
@@ -414,7 +420,7 @@ void Render::updateGamePlay()
 	logger->log("Throttle Position: " + f2s(rotorForce/Constants::getInstance()->baseThrottle));
 	
 	//missile
-	missileTransform->setPosition(missilePositon);
+	//missileTransform->setPosition(missilePositon);
 	
 	//missileTransform->setPosition(missilePositon);
 
@@ -459,24 +465,38 @@ void Render::setRoll(float angle){
 void Render::fireMissile(){
 	//osg::Vec3f velocity;
 	if(!fired){
-	float velx = (modelVelocity.x() + Constants::getInstance()->missile->Airspeed*sin(helicopterOrientation.z_theta)*cos(helicopterOrientation.y_theta));
-	float vely =  (modelVelocity.y() + Constants::getInstance()->missile->Airspeed*cos(helicopterOrientation.z_theta)*sin(helicopterOrientation.y_theta));
-	float velz = modelVelocity.z();
+		float mvx = modelVelocity.x(),mvy = modelVelocity.y(),mvz = modelVelocity.z();
+		
+	float velx = (mvx + Constants::getInstance()->missile->Airspeed*sin(helicopterOrientation.y_theta)*cos(helicopterOrientation.x_theta));
+	float vely =  (mvy + Constants::getInstance()->missile->Airspeed*cos(helicopterOrientation.y_theta)*sin(helicopterOrientation.x_theta));
+	float velz = mvz;
+	updateMissile(velx,vely,velz);
+		//updateMissilepos(misxPos,misyPos,miszPos);
 	cout << "x "<<velx << " y " << vely << " z " << velz << " "<<endl;
 	cout << "x "<<modelVelocity.x() << " y " << modelVelocity.y() << " z " << modelVelocity.z()<< " "<<endl;
 	//velocity.set();
 	fired = true;
 	
 	//float velz = velocity*cos(helicopterOrientation.z_theta);
-	missileVelocity.set(osg::Vec3f(velx,vely,velz));
+//	missileVelocity.set(osg::Vec3f(velx,vely,velz));
 	missileTransform->setAttitude(
 		osg::Quat(
 			osg::DegreesToRadians(helicopterOrientation.x_theta ),osg::Vec3f(1,0,0),
 			osg::DegreesToRadians(helicopterOrientation.y_theta),osg::Vec3f(0,1,0),
-			osg::DegreesToRadians(helicopterOrientation.z_theta ),osg::Vec3f(0,0,1)
+			osg::DegreesToRadians(helicopterOrientation.z_theta),osg::Vec3f(0,0,1)
 			)
 		);
-	}
+	
 	//if(missileCount > 0){
 	//}
+	}
+}
+void Render::updateMissile(float x ,float y ,float z ){
+
+	missileVelocity.set(osg::Vec3d(x,y,z));
+}
+
+void Render::updateMissilepos(float x,float y,float z){
+
+	missilePositon.set(osg::Vec3d(x,y,z));
 }
