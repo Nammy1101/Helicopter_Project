@@ -2,7 +2,7 @@
 	Command
 		Executes the command with the given parameters
 
-		Credits: Tylor Froese, Brian Schwietzer
+		Credits: Tylor Froese, Brian Schwietzer,Dylan Rush, Nam , Yachan
 
 */
 

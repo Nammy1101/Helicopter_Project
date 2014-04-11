@@ -5,7 +5,7 @@
 		Reads attribute file and allows the file to overwrite the constants.
 		Also calculates force of friction for use in physics.
 
-		Credits: Tylor Froese, Karlee Stein
+		Credits: Tylor Froese, Karlee Stein,Dylan Rush, Nam ,Yachan,
 
 */
 

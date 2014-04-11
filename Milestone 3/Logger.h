@@ -2,7 +2,7 @@
 	Logger
 		Singleton Logger that allows a string to be logged to a file with a timestamp
 
-		Credits: Tylor Froese, Brian Schwietzer
+		Credits: Tylor Froese, Brian Schwietzer,Dylan Rush,Nam, Yachan
 
 */
 
